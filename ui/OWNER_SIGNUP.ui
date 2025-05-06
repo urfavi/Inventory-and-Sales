@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OwnrSIGNUP</class>
+ <widget class="QMainWindow" name="OwnrSIGNUP">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1925</width>
+    <height>1033</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Inventory and Sales Management System</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background-color: white;</string>
+   </property>
+   <widget class="QLabel" name="PIC">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1921</width>
+      <height>982</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>100</width>
+      <height>40</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>16777215</width>
+      <height>16777215</height>
+     </size>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="jj_owner_resources.qrc">:/JJimages/PIC_log_sign_in.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>130</y>
+      <width>451</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="jj_owner_resources.qrc">:/JJimages/JJLOGO.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>0</y>
+      <width>931</width>
+      <height>982</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>80</y>
+       <width>141</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>First Name</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>170</y>
+       <width>221</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Last Name</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_FNAME">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>130</y>
+       <width>851</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Enter your first name</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_LNAME">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>220</y>
+       <width>851</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Enter your last name</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_MI">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>310</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Enter your M.I.</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_GENDER">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>310</y>
+       <width>221</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Male / Female</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_DOB">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>310</y>
+       <width>301</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>yyyy/mm/dd (example: 2000/09/05)</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>20</y>
+       <width>511</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>29</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Create an Account</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_12">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>350</y>
+       <width>161</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Home Address</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_HOMEADD">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>400</y>
+       <width>851</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Enter your home address</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_13">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>440</y>
+       <width>181</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Contact Number</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_CONTACTNUM">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>490</y>
+       <width>851</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Enter your contact number</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_14">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>520</y>
+       <width>141</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Username</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_USERNAME">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>580</y>
+       <width>851</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Enter your username</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_15">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>610</y>
+       <width>151</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Password</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_PASSWORD">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>670</y>
+       <width>851</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Enter your password</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_16">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>700</y>
+       <width>281</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Confirm Password</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_Sup_Owner_CONFIRMPASSWORD">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>760</y>
+       <width>851</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 1.2px solid #022162; 
+border-radius: 14px; 
+padding: 3px;
+font-family: &quot;Verdana&quot;, sans-serif; </string>
+     </property>
+     <property name="placeholderText">
+      <string>Confirm your password</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_signup">
+     <property name="geometry">
+      <rect>
+       <x>52</x>
+       <y>830</y>
+       <width>851</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>15</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">border: 2px solid #374550; 
+border-radius: 25px; 
+padding: 5px; 
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background-color: #374550; 
+color: white;</string>
+     </property>
+     <property name="text">
+      <string>Sign up</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_17">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>870</y>
+       <width>281</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Poppins Medium</family>
+       <pointsize>12</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Already have an account?</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_backtologin">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>910</y>
+       <width>131</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>15</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+       <underline>true</underline>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">
+QPushButton{color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background-color: transparent; 
+border-radius: 25px; 
+padding: 5px;}
+QPushButton:hover {
+color:#0cc0df;
+}</string>
+     </property>
+     <property name="text">
+      <string>LOGIN</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_8">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>260</y>
+       <width>151</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Middle Initial</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>260</y>
+       <width>121</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Gender</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_19">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>260</y>
+       <width>151</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>11</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #022162;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;</string>
+     </property>
+     <property name="text">
+      <string>Birthdate</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>-10</x>
+      <y>460</y>
+      <width>991</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: transparent;</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QLabel" name="label_18">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>20</y>
+       <width>771</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>24</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #ffffff;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;
+</string>
+     </property>
+     <property name="text">
+      <string>J &amp; J Roofsteel and Gutter Supply</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>340</x>
+       <y>110</y>
+       <width>291</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>18</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #ffffff;
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent;
+</string>
+     </property>
+     <property name="text">
+      <string>Moalboal Branch</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>250</y>
+       <width>631</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Verdana</family>
+       <pointsize>16</pointsize>
+       <weight>87</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: #fff2bd; 
+font-weight: 700;
+font-family: &quot;Verdana&quot;, sans-serif; 
+background: transparent; 
+</string>
+     </property>
+     <property name="text">
+      <string>Supply       |         Install       |         Repair    </string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1925</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources>
+  <include location="jj_owner_resources.qrc"/>
+  <include location="jj_owner_resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

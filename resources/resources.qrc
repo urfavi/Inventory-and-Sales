@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="resources">
+    <file>images/login_pic.png</file>
+    <file>images/J&J logo.png</file>
+    <file>images/BACKGROUND.png</file>
+  </qresource>
+</RCC>
