@@ -1,6 +1,6 @@
-from controllers.login_controller import Login
 from gui_classes.ui_landing import Ui_JJ_LANDING  # Correct path
 from gui_classes.ui_login import Ui_LOGIN  # Correct path for UI class
+from controllers.auth_controller import authenticate_user  # Adjust the import path as needed
 from controllers.login_controller import Login  # Adjust the import path as needed
 from controllers.owner_controller import OwnerInterface  # Adjust the import path as needed
 import sys
