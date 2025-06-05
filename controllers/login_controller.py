@@ -1,10 +1,12 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLineEdit
 from PyQt5.QtCore import QSettings
-from gui_classes.ui_login import Ui_LOGIN
-from gui_classes.ui_forgotPass import Ui_ForgotPass
-from gui_classes.ui_landing import Ui_JJ_LANDING
+from models.database import Database
+from gui_classes.UI_LogIn import Ui_LOGIN
+from gui_classes.UI_ForgotPass import Ui_ForgotPass
+from gui_classes.UI_Landing import Ui_JJ_LANDING 
 from controllers.auth_controller import authenticate_user
-from controllers.owner_controller import OwnerInterface
+from controllers.owner_controller import OwnerController
+#from controllers.cashier_controller import CashierController  # Commented out for now
 from controllers.forgotpass_controller import ForgotPasswordWindow
 from cryptography.fernet import Fernet
 
@@ -23,10 +25,8 @@ class LandingWindow(QMainWindow):
         if 'login' not in active_windows or active_windows['login'] is None:
             active_windows['login'] = Login()
         else:
-            # Clear the fields before showing again
             active_windows['login'].clear_login_info()
         active_windows['login'].show()
-
 
 class Login(QMainWindow):
     def __init__(self):
@@ -41,15 +41,13 @@ class Login(QMainWindow):
         try:
             self.settings = QSettings("YourApp", "LoginCredentials")
             self.cipher = self._initialize_encryption()
-            # Always load saved credentials at init
             self._load_saved_credentials()
         except Exception as e:
             print(f"Initialization error: {e}")
             self.settings = None
             self.cipher = None
 
-        # Connect signals
-        self.ui.pushButton_LOGIN.clicked.connect(self.open_owner_interface)
+        self.ui.pushButton_LOGIN.clicked.connect(self.handle_login_button_clicked)
         self.ui.pushButton_xtolanding.clicked.connect(self.return_to_landing)
         self.ui.pushButton_forgotPass_login_page.clicked.connect(self.open_forgot_password)
         self.ui.togglePasswordButton.clicked.connect(self.toggle_login_password_visibility)
@@ -60,7 +58,6 @@ class Login(QMainWindow):
             self.ui.checkBox_rememberme.stateChanged.connect(self._handle_remember_me_change)
 
     def _initialize_encryption(self):
-        """Initialize encryption key"""
         try:
             key = self.settings.value("encryption_key")
             if not key:
@@ -72,7 +69,6 @@ class Login(QMainWindow):
             return None
 
     def _load_saved_credentials(self):
-        """Load saved credentials if available"""
         if not self.cipher:
             return
         try:
@@ -83,11 +79,9 @@ class Login(QMainWindow):
                 password = self.cipher.decrypt(encrypted_pass.encode()).decode()
                 self.ui.login_usrname.setText(username)
                 self.ui.login_password.setText(password)
-                # Check the checkbox if credentials loaded
                 if hasattr(self.ui, 'checkBox_rememberme'):
                     self.ui.checkBox_rememberme.setChecked(True)
             else:
-                # No saved credentials — uncheck box
                 if hasattr(self.ui, 'checkBox_rememberme'):
                     self.ui.checkBox_rememberme.setChecked(False)
         except Exception as e:
@@ -95,7 +89,6 @@ class Login(QMainWindow):
             self.clear_saved_credentials()
 
     def clear_saved_credentials(self):
-        """Safely clear stored credentials"""
         if not self.settings:
             return
         try:
@@ -109,22 +102,18 @@ class Login(QMainWindow):
 
     def showEvent(self, event):
         super().showEvent(event)
-        # Optional: reload saved credentials on show if checkbox checked
         if hasattr(self.ui, 'checkBox_rememberme') and self.ui.checkBox_rememberme.isChecked():
             self._load_saved_credentials()
 
     def clear_input_fields(self):
-        """Clear username and password input fields only"""
         self.ui.login_usrname.clear()
         self.ui.login_password.clear()
 
     def _handle_remember_me_change(self, state):
-        """Clear credentials only when user unchecks Remember Me"""
         if state == 0:
             self.clear_saved_credentials()
 
     def _save_credentials(self, username, password):
-        """Encrypt and save credentials"""
         if not self.cipher:
             return False
         try:
@@ -137,25 +126,54 @@ class Login(QMainWindow):
             print(f"Save credentials error: {e}")
             return False
 
-    def open_owner_interface(self):
+    def handle_login_button_clicked(self):
+        print("Login button clicked!")
+        username = self.ui.login_usrname.text()
+        password = self.ui.login_password.text()
+
         try:
-            username = self.ui.login_usrname.text()
-            password = self.ui.login_password.text()
-            if authenticate_user(username, password):
-                if hasattr(self.ui, 'checkBox_rememberme') and self.ui.checkBox_rememberme.isChecked():
-                    self._save_credentials(username, password)
-                self.close()
-                active_windows['owner'] = OwnerInterface()
-                active_windows['owner'].show()
+            user = authenticate_user(username, password)
+            if user:
+                self._handle_successful_login(username, password, user['role'])
             else:
                 self.show_error_message("Invalid username or password!")
         except Exception as e:
-            print(f"Login crash: {e}")
+            print(f"Login error: {e}")
             self.show_error_message("Login failed. Check console.")
+
+    def _handle_successful_login(self, username, password, role):
+        try:
+            if hasattr(self.ui, 'checkBox_rememberme') and self.ui.checkBox_rememberme.isChecked():
+                self._save_credentials(username, password)
+
+            if role == 'OWNER':
+                self._open_owner_interface()
+            # Commented cashier role for now
+            # elif role == 'CASHIER':
+            #     self._open_cashier_interface()
+            else:
+                raise ValueError(f"Unknown role: {role}")
+        except Exception as e:
+            print(f"Login flow error: {e}")
+            self.show_error_message("Login failed. Check console.")
+
+    def _open_owner_interface(self):
+        self.hide()
+        if 'owner' not in active_windows or active_windows['owner'] is None:
+            active_windows['owner'] = OwnerController(self)
+        active_windows['owner'].show()
+
+    # Commented cashier interface method until integrated
+    # def _open_cashier_interface(self):
+    #     self.hide()
+    #     if 'cashier' not in active_windows or active_windows['cashier'] is None:
+    #         active_windows['cashier'] = CashierController(self)
+    #     active_windows['cashier'].show()
 
     def return_to_landing(self):
         self.hide()
-        active_windows['landing'] = LandingWindow()
+        if 'landing' not in active_windows:
+            active_windows['landing'] = LandingWindow()
         active_windows['landing'].show()
 
     def open_forgot_password(self):
@@ -179,12 +197,10 @@ class Login(QMainWindow):
         msg.exec_()
 
     def clear_login_info(self):
-        """External call to reset inputs without affecting saved credentials"""
         self.clear_input_fields()
         self.ui.login_password.setEchoMode(QLineEdit.Password)
         self.set_button_text(self.ui.togglePasswordButton, False)
         self.login_pass_visible = False
-
 
 if __name__ == "__main__":
     import sys

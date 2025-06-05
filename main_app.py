@@ -1,9 +1,10 @@
-from gui_classes.ui_landing import Ui_JJ_LANDING  # Correct path
-from gui_classes.ui_login import Ui_LOGIN  # Correct path for UI class
+import sys
+import os
+from gui_classes.UI_Landing import Ui_JJ_LANDING
+from gui_classes.UI_LogIn import Ui_LOGIN
 from controllers.auth_controller import authenticate_user  # Adjust the import path as needed
 from controllers.login_controller import Login  # Adjust the import path as needed
-from controllers.owner_controller import OwnerInterface  # Adjust the import path as needed
-import sys
+from controllers.owner_controller import OwnerController # Adjust the import path as needed
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QDate, QTimer, QTime, Qt
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox

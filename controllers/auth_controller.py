@@ -2,25 +2,29 @@ from models.user_model import get_user_by_username, update_user_password
 import bcrypt
 
 def authenticate_user(username, password):
+    username = username.strip()  # prevent trailing space issues
     user = get_user_by_username(username)
+    print(f"[DEBUG] Retrieved user for {username}: {user}")  # This helps a lot
+    
     if user is None:
-        return False
+        return None
 
     try:
-        stored_hash = user[1]  # Assuming the second column is the hashed password
+        stored_hash = user[1]  # hashed password
+        role = user[2]         # role (OWNER or CASHIER)
         
         password_bytes = password.encode('utf-8')
         stored_hash_bytes = stored_hash.encode('utf-8') if isinstance(stored_hash, str) else stored_hash
 
-        print(f"Comparing password for {username}")
-        print(f"Input password: {password}")
-        print(f"Stored hash: {stored_hash}")
-        
+        print(f"[DEBUG] Comparing input password for {username}")
         if bcrypt.checkpw(password_bytes, stored_hash_bytes):
-            return True
+            return {
+                "username": username,
+                "role": role
+            }
         else:
+            return None
 
-            return False
     except Exception as e:
         print("[AUTH ERROR]:", e)
         return False

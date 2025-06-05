@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'views/JJ_LANDING_PAGE.ui'
+# Form implementation generated from reading ui file 'views/UI_Landing.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -15,85 +15,100 @@ class Ui_JJ_LANDING(object):
     def setupUi(self, JJ_LANDING):
         JJ_LANDING.setObjectName("JJ_LANDING")
         JJ_LANDING.resize(1925, 1035)
-        JJ_LANDING.setStyleSheet("")
-        self.centralwidget = QtWidgets.QWidget(JJ_LANDING)
-        self.centralwidget.setObjectName("centralwidget")
-        self.BG = QtWidgets.QLabel(self.centralwidget)
-        self.BG.setGeometry(QtCore.QRect(-10, 0, 1925, 982))
-        self.BG.setText("")
-        self.BG.setScaledContents(True)
-        self.BG.setObjectName("BG")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(780, 130, 381, 251))
-        self.label.setText("")
-        self.label.setScaledContents(True)
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(870, 430, 501, 101))
-        font = QtGui.QFont()
-        font.setFamily("Arial Black")
-        font.setPointSize(-1)
-        self.label_2.setFont(font)
-        self.label_2.setStyleSheet("color: #d75413; \n"
-"font-size:120px;\n"
-"font-family: \"Arial Black\", Arial, sans-serif; background: transparent;")
-        self.label_2.setObjectName("label_2")
-        self.label_3 = QtWidgets.QLabel(self.centralwidget)
-        self.label_3.setGeometry(QtCore.QRect(540, 440, 311, 101))
-        font = QtGui.QFont()
-        font.setFamily("Rubik Mono One")
-        font.setPointSize(-1)
-        self.label_3.setFont(font)
-        self.label_3.setStyleSheet("color: #ebe0cc; \n"
-"font-size: 120px;\n"
-"font-family: \"Rubik Mono One\", sans-serif; background: transparent;")
-        self.label_3.setObjectName("label_3")
-        self.label_4 = QtWidgets.QLabel(self.centralwidget)
-        self.label_4.setGeometry(QtCore.QRect(600, 550, 721, 51))
-        font = QtGui.QFont()
-        font.setFamily("Sora Semibold")
-        font.setPointSize(21)
-        self.label_4.setFont(font)
-        self.label_4.setStyleSheet("color: #f6f3ee; font-family: \"Sora Semibold\", sans-serif; background: transparent;")
-        self.label_4.setObjectName("label_4")
-        self.label_5 = QtWidgets.QLabel(self.centralwidget)
-        self.label_5.setGeometry(QtCore.QRect(670, 660, 581, 51))
+        self.label_5 = QtWidgets.QLabel(JJ_LANDING)
+        self.label_5.setGeometry(QtCore.QRect(610, 650, 751, 51))
         font = QtGui.QFont()
         font.setFamily("Poppins Extrabold")
-        font.setPointSize(-1)
+        font.setPointSize(18)
         self.label_5.setFont(font)
-        self.label_5.setStyleSheet("color: #ebe0cc; \n"
-"font-size:25px;\n"
-"font-family: \"Poppins Extrabold\", sans-serif; \n"
-"background: transparent;\n"
-"")
+        self.label_5.setStyleSheet("color: #ebe0cc;\n"
+"font-family: \"Poppins Extrabold\", sans-serif;\n"
+"background: transparent;")
         self.label_5.setObjectName("label_5")
-        self.pushButton_cont_2Login = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_cont_2Login.setGeometry(QtCore.QRect(820, 800, 281, 41))
+        self.BG = QtWidgets.QLabel(JJ_LANDING)
+        self.BG.setGeometry(QtCore.QRect(-6, -9, 2001, 1051))
+        self.BG.setText("")
+        self.BG.setPixmap(QtGui.QPixmap("views\\../resources/images/BACKGROUND.png"))
+        self.BG.setScaledContents(True)
+        self.BG.setObjectName("BG")
+        self.label_2 = QtWidgets.QLabel(JJ_LANDING)
+        self.label_2.setGeometry(QtCore.QRect(860, 410, 581, 121))
+        font = QtGui.QFont()
+        font.setFamily("Arial Black")
+        font.setPointSize(80)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_2.setFont(font)
+        self.label_2.setStyleSheet("color: #d75413;\n"
+"font-family: \"Arial Black\", Arial, sans-serif; \n"
+"background: transparent;")
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(JJ_LANDING)
+        self.label_3.setGeometry(QtCore.QRect(510, 430, 371, 101))
+        font = QtGui.QFont()
+        font.setFamily("Rubik Mono One")
+        font.setPointSize(80)
+        self.label_3.setFont(font)
+        self.label_3.setStyleSheet("color: #ebe0cc;\n"
+"font-family: \"Rubik Mono One\", sans-serif;\n"
+"background: transparent;")
+        self.label_3.setObjectName("label_3")
+        self.pushButton_cont_2Login = QtWidgets.QPushButton(JJ_LANDING)
+        self.pushButton_cont_2Login.setGeometry(QtCore.QRect(810, 860, 321, 51))
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(14)
+        font.setPointSize(16)
         self.pushButton_cont_2Login.setFont(font)
-        self.pushButton_cont_2Login.setStyleSheet("QPushButton { background-color: #f6f3ee; border-radius: 15px; padding: 4px; border: none; color: #374550; font-family: \"MS Shell Dlg 2\", sans-serif; } QPushButton:hover { background-color:#b2423c; color:white; font-weight: 700; text-align: center; }")
+        self.pushButton_cont_2Login.setStyleSheet("QPushButton {\n"
+"background-color: #f6f3ee;\n"
+"border-radius: 15px; \n"
+"padding: 4px;\n"
+"border: none;\n"
+"color: #374550;\n"
+"font-family: \"MS Shell Dlg 2\", sans-serif;\n"
+"                }\n"
+"QPushButton:hover {\n"
+"                    background-color:#b2423c;\n"
+"                    color:white;\n"
+"font-weight: 700;\n"
+"                    text-align: center;\n"
+"                }\n"
+"")
         self.pushButton_cont_2Login.setObjectName("pushButton_cont_2Login")
-        JJ_LANDING.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(JJ_LANDING)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1925, 26))
-        self.menubar.setObjectName("menubar")
-        JJ_LANDING.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(JJ_LANDING)
-        self.statusbar.setObjectName("statusbar")
-        JJ_LANDING.setStatusBar(self.statusbar)
+        self.label = QtWidgets.QLabel(JJ_LANDING)
+        self.label.setGeometry(QtCore.QRect(790, 130, 381, 251))
+        self.label.setText("")
+        self.label.setPixmap(QtGui.QPixmap("views\\../resources/images/J&J logo.png"))
+        self.label.setScaledContents(True)
+        self.label.setObjectName("label")
+        self.label_4 = QtWidgets.QLabel(JJ_LANDING)
+        self.label_4.setGeometry(QtCore.QRect(530, 550, 851, 51))
+        font = QtGui.QFont()
+        font.setFamily("Sora Semibold")
+        font.setPointSize(26)
+        self.label_4.setFont(font)
+        self.label_4.setStyleSheet("color: #f6f3ee;\n"
+"font-family: \"Sora Semibold\", sans-serif; \n"
+"background: transparent;")
+        self.label_4.setObjectName("label_4")
+        self.BG.raise_()
+        self.label_5.raise_()
+        self.label_2.raise_()
+        self.label_3.raise_()
+        self.pushButton_cont_2Login.raise_()
+        self.label.raise_()
+        self.label_4.raise_()
 
         self.retranslateUi(JJ_LANDING)
         QtCore.QMetaObject.connectSlotsByName(JJ_LANDING)
 
     def retranslateUi(self, JJ_LANDING):
         _translate = QtCore.QCoreApplication.translate
-        JJ_LANDING.setWindowTitle(_translate("JJ_LANDING", "Inventory and Sales Management System"))
-        self.label_2.setText(_translate("JJ_LANDING", "Elevate"))
-        self.label_3.setText(_translate("JJ_LANDING", "J&J"))
-        self.label_4.setText(_translate("JJ_LANDING", "Elevate Your Space, One Roof at a Time"))
-        self.label_5.setText(_translate("JJ_LANDING", "Supply                               Install                               Repair"))
+        JJ_LANDING.setWindowTitle(_translate("JJ_LANDING", "Form"))
+        self.label_5.setText(_translate("JJ_LANDING", "Supply                               Install                            Repair    "))
+        self.label_2.setText(_translate("JJ_LANDING", "Elevate\n"
+""))
+        self.label_3.setText(_translate("JJ_LANDING", "J&J\n"
+""))
         self.pushButton_cont_2Login.setText(_translate("JJ_LANDING", "Continue to Login"))
-import resources.resources_rc
+        self.label_4.setText(_translate("JJ_LANDING", "Elevate Your Space, One Roof at a Time"))

@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QLineEdit
-from gui_classes.ui_forgotPass import Ui_ForgotPass
+from gui_classes.UI_ForgotPass import Ui_ForgotPass
 import re
 from models.user_model import get_user_by_username, update_user_password
 import bcrypt

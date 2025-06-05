@@ -1,3 +1,4 @@
+"""
 from db.database import connect_db  # Import the function to connect to your database
 import bcrypt
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
@@ -57,3 +58,4 @@ class CashierDashboard(QMainWindow):
         super().__init__()
         self.ui = Ui_CASHIER_DASHBOARD()
         self.ui.setupUi(self)
+"""

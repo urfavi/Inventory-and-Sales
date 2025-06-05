@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'views/FORGOTpass.ui'
+# Form implementation generated from reading ui file 'views/UI_ForgotPass.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -15,32 +15,15 @@ class Ui_ForgotPass(object):
     def setupUi(self, ForgotPass):
         ForgotPass.setObjectName("ForgotPass")
         ForgotPass.resize(1925, 1033)
-        ForgotPass.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.centralwidget = QtWidgets.QWidget(ForgotPass)
-        self.centralwidget.setStyleSheet("background-color: white;")
-        self.centralwidget.setObjectName("centralwidget")
-        self.PIC = QtWidgets.QLabel(self.centralwidget)
-        self.PIC.setGeometry(QtCore.QRect(0, 0, 1921, 982))
-        self.PIC.setMinimumSize(QtCore.QSize(100, 40))
-        self.PIC.setMaximumSize(QtCore.QSize(16777215, 16777215))
-        self.PIC.setText("")
-        self.PIC.setPixmap(QtGui.QPixmap(":/JJimages/PIC_log_sign_in.png"))
-        self.PIC.setScaledContents(True)
-        self.PIC.setObjectName("PIC")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(270, 130, 451, 331))
-        self.label.setStyleSheet("background-color: transparent;")
-        self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap(":/JJimages/JJLOGO.png"))
-        self.label.setScaledContents(True)
-        self.label.setObjectName("label")
-        self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(990, 0, 931, 982))
+        ForgotPass.setStyleSheet("background-color:white;")
+        self.frame = QtWidgets.QFrame(ForgotPass)
+        self.frame.setGeometry(QtCore.QRect(990, 0, 931, 1041))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
         self.stackedWidget_forgotPass = QtWidgets.QStackedWidget(self.frame)
         self.stackedWidget_forgotPass.setGeometry(QtCore.QRect(0, 90, 931, 861))
+        self.stackedWidget_forgotPass.setStyleSheet("background-color:white;")
         self.stackedWidget_forgotPass.setObjectName("stackedWidget_forgotPass")
         self.enter_contact = QtWidgets.QWidget()
         self.enter_contact.setObjectName("enter_contact")
@@ -225,7 +208,7 @@ class Ui_ForgotPass(object):
 "")
         self.toggleNewPass.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("views\\../../../../../Downloads/EYE.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("views\\../../../../Downloads/EYE.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toggleNewPass.setIcon(icon)
         self.toggleNewPass.setIconSize(QtCore.QSize(45, 45))
         self.toggleNewPass.setObjectName("toggleNewPass")
@@ -273,7 +256,14 @@ class Ui_ForgotPass(object):
 "background-color: #374550; \n"
 "color: white;")
         self.pushButton_xtolanding_forgotpass_2.setObjectName("pushButton_xtolanding_forgotpass_2")
-        self.jframe = QtWidgets.QFrame(self.centralwidget)
+        self.label = QtWidgets.QLabel(ForgotPass)
+        self.label.setGeometry(QtCore.QRect(270, 130, 451, 331))
+        self.label.setStyleSheet("background-color: transparent;")
+        self.label.setText("")
+        self.label.setPixmap(QtGui.QPixmap("views\\../resources/images/J&J logo.png"))
+        self.label.setScaledContents(True)
+        self.label.setObjectName("label")
+        self.jframe = QtWidgets.QFrame(ForgotPass)
         self.jframe.setGeometry(QtCore.QRect(-10, 460, 951, 431))
         self.jframe.setStyleSheet("background: transparent;")
         self.jframe.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -321,14 +311,18 @@ class Ui_ForgotPass(object):
 "background: transparent; \n"
 "")
         self.label_11.setObjectName("label_11")
-        ForgotPass.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(ForgotPass)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1925, 26))
-        self.menubar.setObjectName("menubar")
-        ForgotPass.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(ForgotPass)
-        self.statusbar.setObjectName("statusbar")
-        ForgotPass.setStatusBar(self.statusbar)
+        self.PIC = QtWidgets.QLabel(ForgotPass)
+        self.PIC.setGeometry(QtCore.QRect(0, 0, 1921, 1031))
+        self.PIC.setMinimumSize(QtCore.QSize(100, 40))
+        self.PIC.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.PIC.setText("")
+        self.PIC.setPixmap(QtGui.QPixmap("views\\../resources/images/login_pic.png"))
+        self.PIC.setScaledContents(True)
+        self.PIC.setObjectName("PIC")
+        self.PIC.raise_()
+        self.frame.raise_()
+        self.label.raise_()
+        self.jframe.raise_()
 
         self.retranslateUi(ForgotPass)
         self.stackedWidget_forgotPass.setCurrentIndex(2)
@@ -336,7 +330,7 @@ class Ui_ForgotPass(object):
 
     def retranslateUi(self, ForgotPass):
         _translate = QtCore.QCoreApplication.translate
-        ForgotPass.setWindowTitle(_translate("ForgotPass", "Inventory and Sales Management System"))
+        ForgotPass.setWindowTitle(_translate("ForgotPass", "Form"))
         self.label_9.setText(_translate("ForgotPass", "Reset Password"))
         self.setNewPass_2.setText(_translate("ForgotPass", "Set New Password"))
         self.setNewPass.setPlaceholderText(_translate("ForgotPass", "  Enter your new password"))
@@ -353,4 +347,3 @@ class Ui_ForgotPass(object):
         self.label_18.setText(_translate("ForgotPass", "J & J Roofsteel and Gutter Supply"))
         self.label_6.setText(_translate("ForgotPass", "Moalboal Branch"))
         self.label_11.setText(_translate("ForgotPass", "Supply       |         Install       |         Repair    "))
-import resources.jj_owner_resources_rc
