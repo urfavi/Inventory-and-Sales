@@ -1,17 +1,27 @@
 class SalesPageController:
-    def __init__(self, sales_ui, sales_controller):
+    # Modified __init__ signature to accept shop_id, user_id, and username
+    def __init__(self, sales_ui, sales_controller, current_user_shop_id=None, current_user_id=None, current_username=None):
         self.ui = sales_ui
         self.sales_controller = sales_controller
+
+        # Store the current shop and user information
+        self.current_user_shop_id = current_user_shop_id
+        self.current_user_id = current_user_id
+        self.current_username = current_username
+
+        # You might want to add debug print here to confirm values are received
+        print(f"DEBUG: SalesPageController initialized for Shop ID: {self.current_user_shop_id}, User ID: {self.current_user_id}, Username: {self.current_username}")
+
         self._setup_salestab_states()  # Initialize button states
         self._connect_sales_buttons()  # Connect button signals
-        
+
         # Set initial page and active button
         self.ui.stackedWidget_Sales.setCurrentIndex(0)
         self.set_active_button(self.ui.pushButton_summaryView)
 
         # Connect the filter combo box to update the label
         self.ui.comboBox_filterSales.currentTextChanged.connect(self.update_sales_report_label)
-        
+
         # Initialize label text based on the default combo box selection
         self.update_sales_report_label(self.ui.comboBox_filterSales.currentText())
 
@@ -21,13 +31,13 @@ class SalesPageController:
             self.ui.pushButton_summaryView,
             self.ui.pushButton_salesDetail
         ]
-        
+
         # Initialize all buttons to inactive state
         self.reset_button_styles()
 
     def reset_button_styles(self):
         """Reset all sales tab buttons to inactive state"""
-        for button in self.sales_tab_buttons:  
+        for button in self.sales_tab_buttons:
             button.setProperty('class', '')
             button.style().unpolish(button)
             button.style().polish(button)
@@ -43,11 +53,11 @@ class SalesPageController:
         button.setProperty('class', 'activeButton')
         button.style().unpolish(button)
         button.style().polish(button)
-        
+
     def view_sales_tab(self, index):
         """Switch to the specified sales tab and update button states"""
         self.ui.stackedWidget_Sales.setCurrentIndex(index)
-        
+
         # Set the appropriate button as active based on the index
         if index == 0:
             self.set_active_button(self.ui.pushButton_summaryView)
@@ -56,8 +66,8 @@ class SalesPageController:
 
     def update_sales_report_label(self, filter_text):
         """Update the sales report label based on the selected filter"""
-        filter_text = filter_text.upper()  
-        
+        filter_text = filter_text.upper()
+
         if filter_text == "DAILY":
             self.ui.SALES_label.setText("Daily Sales Report")
         elif filter_text == "WEEKLY":
@@ -65,4 +75,4 @@ class SalesPageController:
         elif filter_text == "MONTHLY":
             self.ui.SALES_label.setText("Monthly Sales Report")
         else:
-            self.ui.SALES_label.setText("Sales Report")   # Default/fallback
+            self.ui.SALES_label.setText("Sales Report")  # Default/fallback

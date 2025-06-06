@@ -84,13 +84,16 @@ class InventoryModel:
                 t.prod_type_name,
                 p.product_name, 
                 p.product_price,
+                s.prod_spec_id,
                 s.prod_spec_stock_qty,
                 s.prod_spec_color,
                 s.prod_spec_length_mm,
                 s.prod_spec_thickness_mm,
                 s.prod_spec_width_mm,
                 s.prod_spec_other,
-                p.product_source
+                p.product_source,
+                p.product_created_at,
+                p.product_updated_at
             FROM product p
             LEFT JOIN product_type t ON p.product_type_id = t.prod_type_id
             LEFT JOIN product_specification s ON p.product_id = s.product_id
@@ -103,17 +106,39 @@ class InventoryModel:
             cursor.close()
             
             if result:
-                # Manually map to dictionary with aliases for consistency with form expectations
                 columns = [
                     "product_id", "prod_type_name", "product_name", "product_price",
-                    "stock_qty", "color", "length_mm", "thickness_mm", "width_mm", "other",
-                    "source"
+                    "prod_spec_id", "stock_qty", "color", "length_mm", 
+                    "thickness_mm", "width_mm", "other", "product_source",
+                    "product_created_at", "product_updated_at"
                 ]
-                return dict(zip(columns, result))
+                product_dict = dict(zip(columns, result))
+
+                product_dict['stock_qty'] = int(product_dict['stock_qty']) if product_dict['stock_qty'] else 0
+                product_dict['length_mm'] = float(product_dict['length_mm']) if product_dict['length_mm'] else None
+                product_dict['thickness_mm'] = float(product_dict['thickness_mm']) if product_dict['thickness_mm'] else None
+                product_dict['width_mm'] = float(product_dict['width_mm']) if product_dict['width_mm'] else None
+
+                return product_dict
             return None
         except Exception as e:
             print(f"Error getting product by ID: {e}")
             return None
+    
+    def get_product_name_by_id(self, product_id):
+        """Fetches the product name from the product table given a product_id."""
+        cursor = None # Initialize cursor outside try block
+        try:
+            cursor = self.conn.cursor(dictionary=True)
+            cursor.execute("SELECT product_name FROM product WHERE product_id = %s", (product_id,))
+            result = cursor.fetchone()
+            return result['product_name'] if result else None
+        except Exception as e:
+            print(f"Error fetching product name for ID {product_id}: {e}")
+            return None
+        finally:
+            if cursor:
+                cursor.close()
 
     def validate_price(self, price_str):
         """Helper method to validate and convert price strings"""
@@ -123,6 +148,17 @@ class InventoryModel:
             return float(clean_price)
         except ValueError:
             raise ValueError("Please enter a valid price (e.g. ₱1,250.50)")
+    
+    def get_color_name(self, color_id):
+        """Convert color ID to color name"""
+        if color_id is None:
+            return ""
+        query = "SELECT color_name FROM colors WHERE color_id = %s"
+        cursor = self.database.connection.cursor()
+        cursor.execute(query, (color_id,))
+        result = cursor.fetchone()
+        cursor.close()
+        return result[0] if result else str(color_id)  # Fallback to ID if name not found
 
     def insert_product(self, shop_id, product_type_id, name, price, source):
         try:
@@ -163,36 +199,43 @@ class InventoryModel:
         """
         return "J&J FACTORY-MOALBOAL"
 
-    def insert_specification(self, shop_id, product_id, stock_qty, length, thickness, width, color, other):
+    def insert_specification(self, shop_id, product_id, stock_qty, length=None, thickness=None, 
+                        width=None, color=None, other=None):
         try:
             query = """
                 INSERT INTO PRODUCT_SPECIFICATION (
-                    shop_id, product_id, prod_spec_stock_qty, prod_spec_length_mm, 
-                    prod_spec_thickness_mm, prod_spec_width_mm, prod_spec_color, 
-                    prod_spec_other, prod_spec_created_at, prod_spec_updated_at
+                    shop_id, product_id, prod_spec_stock_qty, 
+                    prod_spec_length_mm, prod_spec_thickness_mm, prod_spec_width_mm,
+                    prod_spec_color, prod_spec_other, 
+                    prod_spec_created_at, prod_spec_updated_at
                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                RETURNING prod_spec_id
             """
             now = datetime.now()
+
+            stock_qty = int(stock_qty) if stock_qty else 0
+            length = float(length) if length else None
+            thickness = float(thickness) if thickness else None
+            width = float(width) if width else None
+            color = str(color) if color else None  # Ensure color is string
+                
+            # Use the connection's cursor directly if your Database class doesn't wrap execute() to return results
             cursor = self.database.connection.cursor()
             cursor.execute(query, (
-                shop_id,
-                product_id,
-                stock_qty,
-                float(length) if length else None,
-                float(thickness) if thickness else None,
-                float(width) if width else None,
-                color.strip() if color else None,
-                other.strip() if other else None,
-                now,
-                now
+                shop_id, product_id, stock_qty, 
+                length, thickness, width,
+                color, other,
+                now, now
             ))
+            
+            spec_id = cursor.fetchone()[0]
             self.database.connection.commit()
             cursor.close()
-            return True
+            return spec_id
         except Exception as e:
-            print(f"Error inserting specification: {e}")
             self.database.connection.rollback()
-            return False
+            print(f"Error inserting specification: {e}")
+            return None
 
     def update_product(self, product_id, name, price, source):
         """Update product information in the database"""
@@ -292,30 +335,88 @@ class InventoryModel:
             print(f"Error searching products by name: {e}")
             return []
 
-    def delete_product_by_id(self, product_id):
-        """Deletes a product and its associated specification by product_id."""
+
+    # In models/InventoryModel.py
+
+    def delete_product_by_id(self, product_id, shop_id=1):
+        """Proper deletion that maintains history"""
         try:
             cursor = self.database.connection.cursor()
 
-             # Begin transaction explicitly
-            cursor.execute("BEGIN;")
+            # Step 1: Check for product_specification with explicit column selection
+            cursor.execute("""
+                SELECT ps.prod_spec_id, ps.prod_spec_stock_qty 
+                FROM product_specification ps
+                JOIN product p ON ps.product_id = p.product_id
+                WHERE ps.product_id = %s AND ps.shop_id = %s
+            """, (product_id, shop_id))
+            spec_data = cursor.fetchone()
 
-            query_spec = "DELETE FROM product_specification WHERE product_id = %s;"
-            cursor.execute(query_spec, (product_id,))
+            if not spec_data or len(spec_data) < 2:
+                return False, f"Product {product_id} not found or invalid specification data."
 
-             # Then delete from product
-            query_product = "DELETE FROM product WHERE product_id = %s;"
-            cursor.execute(query_product, (product_id,))
+            spec_id = spec_data[0]
+            old_qty = spec_data[1] if len(spec_data) > 1 else 0  # Default to 0 if qty not available
 
-            cursor.execute("COMMIT;")
-            return True
-        
+            # Rest of the method remains the same...
+            # Step 2: Log DELETE
+            cursor.execute("""
+                INSERT INTO stock_history (
+                    shop_id, user_acc_id, product_spec_id, product_id,
+                    stk_hstry_old_stock_qty, stk_hstry_new_stock_qty,
+                    stk_hstry_action, product_name, stk_hstry_updated_at 
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, 
+                    (SELECT product_name FROM product WHERE product_id = %s), 
+                    NOW())
+            """, (shop_id, 1, spec_id, product_id, old_qty, 0, 'DELETE', product_id))
+
+            # Step 3: Delete product data
+            cursor.execute("DELETE FROM product_specification WHERE product_id = %s AND prod_spec_id = %s", (product_id, spec_id))
+            cursor.execute("DELETE FROM product WHERE product_id = %s", (product_id,))
+
+            self.database.connection.commit()
+            return True, f"Product {product_id} successfully deleted and logged."
+
         except Exception as e:
-            if cursor:
-                cursor.execute("ROLLBACK;")
-            print(f"Error deleting product with ID {product_id}: {e}")
-            return False
-        
+            self.database.connection.rollback()
+            return False, f"Delete failed for {product_id}: {e}"
         finally:
-            if cursor:
-                cursor.close()
+            cursor.close()
+
+    def get_low_stock_products(self):
+        query = """
+            SELECT
+                p.product_name,         -- This will be index 0 in the tuple
+                ps.prod_spec_stock_qty  -- This will be index 1 in the tuple
+            FROM
+                product_specification ps
+            JOIN
+                product p ON ps.product_id = p.product_id AND ps.shop_id = p.shop_id
+            WHERE
+                ps.prod_spec_stock_qty < 20;
+        """
+        try:
+            # fetch_all will return a list of tuples (e.g., [('Product A', 5), ('Product B', 8)])
+            low_stock_items = self.database.fetch_all(query)
+            
+            return low_stock_items
+        except Exception as e:
+            print(f"Error fetching low stock items: {e}")
+            return []
+        
+    def _convert_product_data(self, product_data):
+        """Convert raw product data to proper types"""
+        if isinstance(product_data, dict):
+            # Convert dict values
+            converted = {}
+            for key, value in product_data.items():
+                if key.endswith('_qty') or key == 'stock_qty':
+                    converted[key] = int(value) if value is not None else 0
+                elif key.endswith(('_mm', '_price')):
+                    converted[key] = float(value) if value is not None else None
+                elif key == 'color':
+                    converted[key] = str(value) if value is not None else ""
+                else:
+                    converted[key] = value
+            return converted
+        return product_data

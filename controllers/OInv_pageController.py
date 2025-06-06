@@ -1,11 +1,14 @@
+# controllers/Inventory_controller.py
+
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 from models.database import Database
 from models.OInventory_pageModel import InventoryModel
+from models.OStk_Hstry_model import StockHistoryModel
 
 class InventoryPageController:
 
-    COL_PRODUCT_ID = 0 # Assuming Product ID is the first column (index 0)
+    COL_PRODUCT_ID = 0
     COL_PROD_TYPE_NAME = 1
     COL_PRODUCT_NAME = 2
     COL_PRODUCT_PRICE = 3
@@ -18,32 +21,56 @@ class InventoryPageController:
     COL_PRODUCT_SOURCE = 10
     COL_CREATED_AT = 11
     COL_UPDATED_AT = 12
-    
-    def __init__(self, inventory_ui, inventory_data=None, parent=None):
+
+    # <--- ASA ANII! RIGHT HERE IN THE __init__ SIGNATURE!
+    # I've also removed OStk_Hstry_controller as a parameter because we decided to use self.stock_history_model directly.
+    def __init__(self, inventory_ui, inventory_widget, current_user_shop_id=None, current_user_id=None, current_username=None, inventory_data=None, parent=None, Ostk_Hstry_controller_instance=None): # <--- ADD THIS PARAMETER
         self.ui = inventory_ui
         self.inventory_data = inventory_data or {}
         self.ui.INVENTORY_afterBUTTONSclick.setCurrentIndex(0)
+        self.inventory_widget = inventory_widget # <--- Store this QWidget instance!
         self.parent = parent  # Store the parent widget reference
+
+        # --- User/Shop ID initialization (Good as is) ---
+        self.current_user_shop_id = current_user_shop_id if current_user_shop_id is not None else 1
+        self.current_user_id = current_user_id if current_user_id is not None else 1
+        self.current_username = current_username if current_username is not None else "admin_user"
+
+        print(f"DEBUG: InventoryPageController initialized with Shop ID: {self.current_user_shop_id}, User ID: {self.current_user_id}, Username: {self.current_username}")
 
         self.database = Database()
         self.database.connect()
         self.inventory_model = InventoryModel(self.database)
 
+
+        self.stock_history_model = StockHistoryModel(self.database)
+    
+        # If controller instance is provided, use it; otherwise create a new one
+        if Ostk_Hstry_controller_instance:
+            self.OStk_Hstry_controller = Ostk_Hstry_controller_instance
+        else:
+            # You'll need to import the controller class
+            from controllers.OStk_Hstry_controller import StockHistoryController
+            self.OStk_Hstry_controller = StockHistoryController(
+                stock_history_model=self.stock_history_model,
+                database=self.database
+            )
+
         self.current_edit_product = None
         self.current_delete_product = None
 
-        # Add these lines:
         self._setup_button_groups()
         self._setup_tables()
-        self._setup_price_validators()  # Add price validators
+        self._setup_price_validators()
         self.connect_inventory_buttons()
 
         self.set_active_inventorytable_button(self.ui.pushButton_Inventory_ALL_ITEMS_table)
         self.load_all_inventory_products()
 
-        self._setup_color_validators()  # Add this line
+        self.update_low_stock_warning() # <--- This will populate your low stock warning text browser
 
-        self.update_all_source_labels() # This will set all source labels to the default "J&J FACTORY-MOALBOAL"
+        self._setup_color_validators()
+        self.update_all_source_labels()
     
     def perform_quick_search(self):
         """
@@ -410,6 +437,35 @@ class InventoryPageController:
             self.load_inventory_table(self.ui.tableWidget_ALL_ITEMS, data)
         except Exception as e:
             self._show_error_message(f"Failed to load inventory: {e}")
+        pass
+
+    def update_low_stock_warning(self):
+        print("DEBUG: update_low_stock_warning is being called!")
+        low_stock_items = self.inventory_model.get_low_stock_products() 
+        print(f"DEBUG: Items received in controller: {low_stock_items}") # This will confirm it's a list of dictionaries
+        
+        warning_message = "Low Stock Items:\n"
+        if low_stock_items:
+            print("DEBUG: Low stock items found, building message.")
+            warning_message += "Warning! These items are low of stock.\n" 
+            for item in low_stock_items:
+                # Change these lines to use dictionary keys:
+                product_name = item['product_name']       # Access by key 'product_name'
+                stock_qty = item['prod_spec_stock_qty']   # Access by key 'prod_spec_stock_qty'
+                
+                warning_message += f"Product: {product_name} - ONLY {stock_qty} LEFT\n" 
+        else:
+            print("DEBUG: No low stock items found.")
+            warning_message += "All items are well-stocked."
+
+        print(f"DEBUG: Final warning message: \n{warning_message}")
+        self.ui.textBrowser_inv_ROOF_lowstk_warning.setText(warning_message)
+
+    # You would call update_low_stock_warning() whenever relevant data changes or the view is loaded.
+    # For instance, if you have a method that updates stock after a sale, you'd call this function afterwards.
+    # def handle_stock_update(self, product_id, new_qty):
+    #     self.inventory_model.update_product_stock(product_id, new_qty)
+    #     self.update_low_stock_warning() # Refresh warning after stock update
 
     def load_inventory_table(self, table_widget, data):
         table_widget.setRowCount(0)
@@ -531,11 +587,6 @@ class InventoryPageController:
             self.ui.label_AddProduct_SourceValue3.setText(source or "N/A") # For GUTTER on ADD form
         if hasattr(self.ui, 'label_AddProduct_SourceValue4'):
             self.ui.label_AddProduct_SourceValue4.setText(source or "N/A") # For GUTTER on ADD form
-        # Assuming label_AddProduct_SourceValue is shared for "Other" or needs its own specific label:
-        # If "Other" has a dedicated label that's not label_AddProduct_SourceValue, ensure it's handled here.
-        # Example if it's label_AddProduct_SourceValue4_Other:
-        # if hasattr(self.ui, 'label_AddProduct_SourceValue4_Other'):
-        #     self.ui.label_AddProduct_SourceValue4_Other.setText(source or "N/A")
 
         # --- Update Edit Inventory labels ---
         # These are the specific labels for the EDIT form.
@@ -637,7 +688,7 @@ class InventoryPageController:
                 raise Exception("Failed to insert product")
             
              # Step 3: Insert specification with the returned product_id
-            self.inventory_model.insert_specification(
+            spec_id = self.inventory_model.insert_specification(
                 shop_id="1",
                 product_id=product_id,
                 stock_qty=prod_spec_stock_qty,
@@ -648,9 +699,25 @@ class InventoryPageController:
                 other=prod_spec_other or None,
             )
 
+            # LOG THE ADD ACTION (MODIFIED TO USE OStk_Hstry_controller)
+            if self.OStk_Hstry_controller and self.stock_history_model:
+                self.OStk_Hstry_controller.log_stock_action(
+                    product_spec_id=spec_id,
+                    product_id=product_id,
+                    old_quantity=0,
+                    new_quantity=stock_num, # Use the integer stock_num
+                    action_type='ADD',
+                    user_acc_id=1,
+                    product_name=product_name,
+                )
+                print(f"Stock history ADD action logged via controller for product_id {product_id}.")
+            else:
+                print("WARNING: OStk_Hstry_controller not available for ADD logging in confirm_add_stock.")
+            
+            self.OStk_Hstry_controller.load_stock_history()
             self._show_success_message(f"{product_type} stock added successfully!")
-            self.view_all_items_table_inventory()
-        
+            self.view_all_items_table_inventory() # Refresh your table #e ctr; + z gaile of di mo worll
+
         except ValueError as ve:
             self._show_error_message(str(ve))
         except Exception as e:
@@ -664,7 +731,12 @@ class InventoryPageController:
             table = self.ui.tableWidget_ALL_ITEMS
         elif table_type == "ROOF":
             table = self.ui.tableWidget_ROOF
-        # Add other table types...
+        elif table_type == "SPANDREL":
+            table = self.ui.tableWidget_SPANDREL
+        elif table_type == "GUTTER":
+            table = self.ui.tableWidget_GUTTER
+        else: # OTHER
+            table = self.ui.tableWidget_OTHER
         
         selected_row = table.currentRow()
         if selected_row >= 0:
@@ -693,18 +765,49 @@ class InventoryPageController:
 
     def populate_edit_form(self, product, product_type):
         """Fills the edit form with existing product data"""
+        def safe_str(value):
+            if value is None:
+                return ""
+            if isinstance(value, (int, float)):
+                return str(value)
+            return value
+    
         if product_type == "ROOF":
             self.ui.lineEdit_EditROOF_Name.setText(product['product_name'])
             self.ui.lineEdit_EditROOF_Price.setText(str(product['product_price']))
             self.ui.lineEdit_EditROOF_Qty.setText(str(product['stock_qty']))
-            self.ui.lineEdit_EditROOF_Color.setText(product['color'] or "")
+            self.ui.lineEdit_EditROOF_Color.setText(safe_str(product['color']))
             self.ui.lineEdit_EditROOF_Length.setText(str(product['length_mm'] or ""))
             self.ui.lineEdit_EditROOF_Thickness.setText(str(product['thickness_mm'] or ""))
             self.ui.lineEdit_EditROOF_Width.setText(str(product['width_mm'] or ""))
             self.ui.lineEdit_EditROOF_OtherSpecifications.setText(product['other'] or "")
         elif product_type == "SPANDREL":
-            # Similar for SPANDREL
             self.ui.lineEdit_EditSPANDREL_Name.setText(product['product_name'])
+            self.ui.lineEdit_EditSPANDREL_Price.setText(f"₱{product['product_price']:,.2f}")
+            self.ui.lineEdit_EditSPANDREL_Qty.setText(str(product['stock_qty']))
+            self.ui.lineEdit_EditSPANDREL_Color.setText(safe_str(product['color']))
+            self.ui.lineEdit_EditSPANDREL_Length.setText(str(product['length_mm'] or ""))
+            self.ui.lineEdit_EditSPANDREL_Thickness.setText(str(product['thickness_mm'] or ""))
+            self.ui.lineEdit_EditSPANDREL_Width.setText(str(product['width_mm'] or ""))
+            self.ui.lineEdit_EditSPANDREL_OtherSpecifications.setText(product['other'] or "")
+        elif product_type == "GUTTER":
+            self.ui.lineEdit_EditGUTTER_Name.setText(product['product_name'])
+            self.ui.lineEdit_EditGUTTER_Price.setText(f"₱{product['product_price']:,.2f}")
+            self.ui.lineEdit_EditGUTTER_Qty.setText(str(product['stock_qty']))
+            self.ui.lineEdit_EditGUTTER_Color.setText(safe_str(product['color']))
+            self.ui.lineEdit_EditGUTTER_Length.setText(str(product['length_mm'] or ""))
+            self.ui.lineEdit_EditGUTTER_Thickness.setText(str(product['thickness_mm'] or ""))
+            self.ui.lineEdit_EditGUTTER_Width.setText(str(product['width_mm'] or ""))
+            self.ui.lineEdit_EditGUTTER_OtherSpecifications.setText(product['other'] or "")
+        else:  # OTHER
+            self.ui.lineEdit_EditOTHER_Name.setText(product['product_name'])
+            self.ui.lineEdit_EditOTHER_Price.setText(f"₱{product['product_price']:,.2f}")
+            self.ui.lineEdit_EditOTHER_Qty.setText(str(product['stock_qty']))
+            self.ui.lineEdit_EditOTHER_Color.setText(safe_str(product['color']))
+            self.ui.lineEdit_EditOTHER_Length.setText(str(product['length_mm'] or ""))
+            self.ui.lineEdit_EditOTHER_Thickness.setText(str(product['thickness_mm'] or ""))
+            self.ui.lineEdit_EditOTHER_Width.setText(str(product['width_mm'] or ""))
+            self.ui.lineEdit_EditOTHER_OtherSpecifications.setText(product['other'] or "")
 
     def switch_edit_stock_form(self, index):
         mapping = {
@@ -719,6 +822,8 @@ class InventoryPageController:
         self.ui.editStocklabel.setText(label)
 
     def save_edit_stock(self, product_type):
+        old_qty = self.current_edit_product['stock_qty']
+
         try:
             if not self.current_edit_product:
                 raise ValueError("Please select a product to edit first!")
@@ -770,36 +875,53 @@ class InventoryPageController:
                 return
 
             # Convert to numbers
-            price_num = self._parse_peso(price)
-            stock_num = int(stock_qty)
+            price_for_db = self._parse_peso(price) # Use a new variable for the *parsed* number
+            stock_qty_for_db = int(stock_qty)
                 
                 # Update product in database
-            success = self.inventory_model.update_product(
-                    product_id=self.current_edit_product['product_id'],
-                    name=name,
-                    price=price,
-                    source="J&J FACTORY-MOALBOAL"  # or get from form if editable
+            success_product = self.inventory_model.update_product(
+                product_id=self.current_edit_product['product_id'],
+                name=name,
+                price=price_for_db, # Use the parsed number
+                source="J&J FACTORY-MOALBOAL"  # or get from form if editable
             )
-                
-            if not success:
+            if not success_product:
                 raise Exception("Failed to update product information")
                 
                 # Update specification in database
-            success = self.inventory_model.update_specification(
-                    product_id=self.current_edit_product['product_id'],
-                    stock_qty=int(stock_qty),
-                    length=length or None,
-                    thickness=thickness or None,
-                    width=width or None,
-                    color=color or None,
-                    other=other or None
+            success_spec = self.inventory_model.update_specification(
+                product_id=self.current_edit_product['product_id'],
+                stock_qty=stock_qty_for_db, # Use the integer value
+                length=length or None,
+                thickness=thickness or None,
+                width=width or None,
+                color=color or None,
+                other=other or None
             )
-                
-            if not success:
+            if not success_spec:
                 raise Exception("Failed to update product specifications")
+
+            if self.OStk_Hstry_controller:
+                self.OStk_Hstry_controller.log_stock_action(
+                    product_spec_id=self.current_edit_product['prod_spec_id'],
+                    product_id=self.current_edit_product['product_id'],
+                    old_quantity=old_qty,       # The original integer quantity (already `int`)
+                    new_quantity=stock_qty_for_db, # The new integer quantity (from 'stock_qty' parsed)
+                    action_type='UPDATE',
+                    user_acc_id=1,
+                    product_name=name
+                )
+                print(f"Stock history UPDATE action logged via controller for product_id {self.current_edit_product['product_id']}.")
+            else:
+                print("WARNING: OStk_Hstry_controller not available. Stock update not logged.")
+            
+            self.OStk_Hstry_controller.load_stock_history()
+
+            self.update_low_stock_warning() # <--- ADD THIS LINE HERE!
 
             self._show_success_message(f"{product_type} product updated successfully!")
             self.close_edit_stock_form()
+            self.view_all_items_table_inventory() # Refresh your inventory table to show changes
                 
         except ValueError as ve:
             self._show_error_message(str(ve))
@@ -1025,6 +1147,7 @@ class InventoryPageController:
                 raise ValueError("No product selected for deletion. Please select a product from the table first.")
 
             product_id_to_delete = self.current_delete_product['product_id']
+            old_qty_before_delete = self.current_delete_product.get('product_quantity', 0) # Assuming 'product_quantity' key exists
 
             # Validate that the name field isn't empty, even though it's read-only
             # This is a safety check if the user somehow clears it.
@@ -1042,7 +1165,7 @@ class InventoryPageController:
                 raise ValueError("Product name is required to confirm deletion. Please ensure a product is selected.")
 
             # Display a confirmation dialog to the user
-            reply = QMessageBox.question(self.parent, 'Confirm Deletion',
+            reply = QMessageBox.question(self.inventory_widget, 'Confirm Deletion',
                                          f"Are you sure you want to permanently delete '{name_field_text}' ({product_type} stock)?\n\n"
                                          "WARNING! This action cannot be undone.",
                                          QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
@@ -1050,12 +1173,32 @@ class InventoryPageController:
             if reply == QMessageBox.No:
                 self._show_info_message("Deletion cancelled.")
                 return
+            
+            if self.OStk_Hstry_controller:
+                self.OStk_Hstry_controller.log_stock_action(
+                    product_spec_id=self.current_delete_product.get('prod_spec_id'), # Ensure this key exists
+                    product_id=product_id_to_delete,
+                    old_quantity=old_qty_before_delete,
+                    new_quantity=0, # Stock is 0 after deletion
+                    action_type='DELETE',
+                    user_acc_id=1, # IMPORTANT: Replace with actual user ID
+                    product_name=name_field_text
+                )
+                print(f"Stock history DELETE action logged via controller for product_id {product_id_to_delete}.")
+            else:
+                print("WARNING: OStk_Hstry_controller not available. Stock deletion not logged.")
+            
+            delete_successful, msg = self.inventory_model.delete_product_by_id(product_id_to_delete)
+            
+            self.OStk_Hstry_controller.load_stock_history()
 
-            # --- Call your inventory_model to delete the product ---
-            # Your model needs a method like `delete_product_by_id`
-            delete_successful = self.inventory_model.delete_product_by_id(product_id_to_delete)
+            if not delete_successful:
+                raise Exception(msg)
 
             if delete_successful:
+
+                self.update_low_stock_warning() # <--- ADD THIS LINE HERE!
+                
                 self._show_success_message(f"{product_type} stock deleted successfully!")
                 self.load_all_inventory_products() # Refresh the main table
                 self.ui.INVENTORY_afterBUTTONSclick.setCurrentIndex(0) # Go back to "All Items" tab
@@ -1092,13 +1235,14 @@ class InventoryPageController:
         else: # OTHER
             self.ui.lineEdit_DeleteOTHER_Name.clear()
 
-
     # --- Common Helper Methods (ensure these are in your controller) ---
     def _show_error_message(self, message):
-        QMessageBox.critical(self.parent, "Error", message)
+        # Use self.inventory_widget as the parent, NOT self.parent
+        QMessageBox.critical(self.inventory_widget, "Error", message)
 
     def _show_success_message(self, message):
-        QMessageBox.information(self.parent, "Success", message)
+        # Use self.inventory_widget as the parent, NOT self.parent
+        QMessageBox.information(self.inventory_widget, "Success", message)
 
     def _show_info_message(self, message): # Added for "Deletion cancelled"
         QMessageBox.information(self.parent, "Info", message)

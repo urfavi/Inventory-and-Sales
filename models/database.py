@@ -18,7 +18,7 @@ class Database:
                     user=self.user,
                     password=self.password,
                     host=self.host,
-                    port=self.port
+                    port=self.port,
                 )
                 # Keep autocommit OFF by default for explicit transaction management in models
                 self.connection.autocommit = False # Ensure this is explicitly set if you want models to control transactions
@@ -68,11 +68,12 @@ class Database:
                     return cursor.rowcount
         except Exception as e:
             print(f"Error executing query: {str(e)}")
-            # Do NOT rollback here if autocommit is False, as the calling method
-            # (like delete_product_by_id) is responsible for transaction management.
             if self.connection and not self.connection.autocommit:
-                pass # The caller (like model methods) handles rollback
-            return None
+                try:
+                    self.connection.rollback() # <-- THIS LINE IS KEY!
+                    print("Transaction rolled back due to error in execute_query/execute.")
+                except Exception as rb_e:
+                    print(f"Error during rollback: {rb_e}")
 
     def execute(self, query, params=None):
         """
@@ -127,3 +128,17 @@ class Database:
                 print("Database connection closed.")
             except Exception as e:
                 print(f"Error closing database connection: {e}")
+    
+    def commit(self):
+        if self.connection:  # Changed from conn
+            self.connection.commit()
+            print("Database transaction committed.")
+        else:
+            print("Warning: Cannot commit, database connection is not established.")
+
+    def rollback(self):
+        if self.connection:  # Changed from conn
+            self.connection.rollback()
+            print("Database transaction rolled back.")
+        else:
+            print("Warning: Cannot rollback, database connection is not established.")
