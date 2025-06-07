@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem
 from models.database import Database
 from models.OInventory_pageModel import InventoryModel
 from models.OStk_Hstry_model import StockHistoryModel
+from models.ODashboard_pageModel import DashboardModel
+from controllers.ODashboard_pagecontroller import DashboardPageController
 
 class InventoryPageController:
 
@@ -24,7 +26,7 @@ class InventoryPageController:
 
     # <--- ASA ANII! RIGHT HERE IN THE __init__ SIGNATURE!
     # I've also removed OStk_Hstry_controller as a parameter because we decided to use self.stock_history_model directly.
-    def __init__(self, inventory_ui, inventory_widget, current_user_shop_id=None, current_user_id=None, current_username=None, inventory_data=None, parent=None, Ostk_Hstry_controller_instance=None): # <--- ADD THIS PARAMETER
+    def __init__(self, inventory_ui, inventory_widget, current_user_shop_id=None, current_user_id=None, current_username=None, inventory_data=None, parent=None, Ostk_Hstry_controller_instance=None, ODashboard_pagecontroller_instance=None): # <--- ADD THIS PARAMETER
         self.ui = inventory_ui
         self.inventory_data = inventory_data or {}
         self.ui.INVENTORY_afterBUTTONSclick.setCurrentIndex(0)
@@ -41,8 +43,6 @@ class InventoryPageController:
         self.database = Database()
         self.database.connect()
         self.inventory_model = InventoryModel(self.database)
-
-
         self.stock_history_model = StockHistoryModel(self.database)
     
         # If controller instance is provided, use it; otherwise create a new one
@@ -55,6 +55,8 @@ class InventoryPageController:
                 stock_history_model=self.stock_history_model,
                 database=self.database
             )
+
+        self.ODashboard_pagecontroller = ODashboard_pagecontroller_instance # <--- STORE THE REFERENCE HERE
 
         self.current_edit_product = None
         self.current_delete_product = None
@@ -917,6 +919,13 @@ class InventoryPageController:
             
             self.OStk_Hstry_controller.load_stock_history()
 
+            if hasattr(self, 'ODashboard_pagecontroller') and self.ODashboard_pagecontroller:
+                print("DEBUG: Attempting to refresh dashboard...")
+                self.ODashboard_pagecontroller.load_low_stock_warning()
+                print("DEBUG: Dashboard refresh called")
+            else:
+                print("DEBUG: No dashboard controller available to refresh")
+
             self.update_low_stock_warning() # <--- ADD THIS LINE HERE!
 
             self._show_success_message(f"{product_type} product updated successfully!")
@@ -1198,6 +1207,12 @@ class InventoryPageController:
             if delete_successful:
 
                 self.update_low_stock_warning() # <--- ADD THIS LINE HERE!
+
+                if self.ODashboard_pagecontroller: # Check if the instance exists
+                    self.ODashboard_pagecontroller.load_low_stock_warning() # <--- THIS IS THE CORRECT CALL
+                    print("Dashboard low stock warning refreshed dynamically after product deletion.")
+                else:
+                    print("WARNING: ODashboard_pagecontroller not available. Dashboard not refreshed.")
                 
                 self._show_success_message(f"{product_type} stock deleted successfully!")
                 self.load_all_inventory_products() # Refresh the main table

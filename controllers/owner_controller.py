@@ -7,6 +7,7 @@ from gui_classes.UI_OSales import Ui_OWNER_SALES
 from gui_classes.UI_OStockHistory import Ui_OWNER_STOCKHISTORY
 from gui_classes.UI_OAccount import Ui_OWNER_ACCOUNT
 
+from controllers.ODashboard_pagecontroller import DashboardPageController
 from controllers.OInv_pageController import InventoryPageController
 from controllers.OOrders_pageController import OrdersPageController
 from controllers.OSales_pageController import SalesPageController
@@ -100,11 +101,20 @@ class OwnerController:
         self.stack.show()  # Make the window visible
 
     def _init_dashboard(self):
-        # CONSISTENT: dashboard_widget created and used correctly
-        self.dashboard_widget = QWidget() # Corrected: used _widget
+        self.dashboard_widget = QWidget()
         self.dashboard_ui = Ui_OWNER_DASHBOARD()
-        self.dashboard_ui.setupUi(self.dashboard_widget) # Corrected: used dashboard_widget
-        self.stack.addWidget(self.dashboard_widget) # Corrected: used dashboard_widget (and fixed typo from _Widget)
+        self.dashboard_ui.setupUi(self.dashboard_widget)
+        self.stack.addWidget(self.dashboard_widget)
+        
+        # Initialize the dashboard controller
+        self.dashboard_controller = DashboardPageController(
+            dashboard_ui=self.dashboard_ui,
+            current_user_shop_id=self.current_user_shop_id,
+            current_user_id=self.current_user_id,
+            current_username=self.current_username,
+            parent=self,
+            database_connection=self.database  # Pass the database connection
+        )
 
     def _init_inventory(self):
         # This was already correct and consistent
@@ -119,7 +129,8 @@ class OwnerController:
             current_user_id=self.current_user_id,
             current_username=self.current_username,
             parent=self,
-            Ostk_Hstry_controller_instance=self.OStk_Hstry_controller # Pass the instance!
+            Ostk_Hstry_controller_instance=self.OStk_Hstry_controller, # Pass the instance!
+            ODashboard_pagecontroller_instance=self.dashboard_controller  # THIS MUST BE SET
         )
         self.stack.addWidget(self.inventory_widget)
 

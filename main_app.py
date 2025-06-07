@@ -21,7 +21,7 @@ class LandingPage(QMainWindow):
         self.ui.pushButton_cont_2Login.clicked.connect(self.open_login)
 
     def open_login(self):
-        self.owner_login = Login() # An instance of your Login controller is created
+        self.owner_login = Login() 
         self.owner_login.show()
         self.hide()
 
