@@ -6,7 +6,6 @@ from gui_classes.UI_OOrders import Ui_OWNER_ORDERS
 from gui_classes.UI_OSales import Ui_OWNER_SALES
 from gui_classes.UI_OStockHistory import Ui_OWNER_STOCKHISTORY
 from gui_classes.UI_OAccount import Ui_OWNER_ACCOUNT
-
 from controllers.ODashboard_pagecontroller import DashboardPageController
 from controllers.OInv_pageController import InventoryPageController
 from controllers.OOrders_pageController import OrdersPageController
@@ -22,11 +21,9 @@ class OwnerController:
         self.stack = QStackedWidget()
         self.stack.setFixedSize(1921, 1005)
         self.current_active_button = None
-
         self.current_user_shop_id = current_user_shop_id if current_user_shop_id is not None else 1
         self.current_user_id = current_user_id if current_user_id is not None else 1
         self.current_username = current_username if current_username is not None else "Aaron"
-
         print(f"DEBUG: OwnerController initialized with Shop ID: {self.current_user_shop_id}, User ID: {self.current_user_id}, Username: {self.current_username}")
 
         # --- IMPORTANT: Initialize Database here, BEFORE initializing other controllers ---
@@ -39,32 +36,22 @@ class OwnerController:
             error_message = f"Failed to connect to database in OwnerController: {e}. Application may not function correctly."
             print(f"ERROR: {error_message}")
             QMessageBox.critical(None, "Database Connection Error", error_message)
-            # You might want to handle this more gracefully, e.g., disable features or exit.
-            # For now, we'll let it proceed, but functionality relying on DB will fail.
-            # You could also raise the exception again: raise
 
         # Initialize DateTimeController
         self.date_time_controller = DateTimeController()
 
-          # --- NEW/MODIFIED: Initialize StockHistoryModel and StockHistoryPageController ONCE ---
+        # --- NEW/MODIFIED: Initialize StockHistoryModel and StockHistoryPageController ONCE ---
         self.stock_history_model = StockHistoryModel(self.database)
-
         self.stock_history_widget = QWidget() # <--- ADD THIS LINE
         self.stock_history_ui = Ui_OWNER_STOCKHISTORY() # <--- ADD THIS LINE (make sure Ui_OWNER_STOCKHISTORY is imported)
         self.stock_history_ui.setupUi(self.stock_history_widget) # <--- ADD THIS LINE
-
         self.OStk_Hstry_controller = StockHistoryPageController( # <--- Store it as this attribute name!
             history_ui=self.stock_history_ui,           # Your __init__ expects 'history_ui'
             history_widget=self.stock_history_widget,       # Your __init__ expects 'history_widget'
             current_user_shop_id=self.current_user_shop_id,  # Add this line # Your __init__ expects 'current_user_shop_id'
             database_connection=self.database, # Your __init__ expects 'database_connection'
             parent=self,
-             # Your __init__ expects 'parent' (optional)
-            # DO NOT ADD 'current_user_id=' HERE. Your StockHistoryPageController.__init__ does not accept it.
-            # DO NOT ADD 'main_app=' HERE. Your StockHistoryPageController.__init__ does not accept it.
-            # DO NOT ADD 'history_model=' HERE. Your StockHistoryPageController.__init__ creates its own model.
         )
-        # --- END NEW/MODIFIED ---
 
         # Initialize all owner pages - ALL WIDGETS ARE CREATED HERE
         # Pass self.database to controllers that need it for their models
@@ -93,7 +80,7 @@ class OwnerController:
         QApplication.processEvents()
         self.set_active_button('dashboard')
         QApplication.processEvents()
-        
+       
     def show(self):
         # CONSISTENT: Now uses dashboard_widget
         self.stack.setCurrentWidget(self.dashboard_widget)
@@ -105,7 +92,7 @@ class OwnerController:
         self.dashboard_ui = Ui_OWNER_DASHBOARD()
         self.dashboard_ui.setupUi(self.dashboard_widget)
         self.stack.addWidget(self.dashboard_widget)
-        
+       
         # Initialize the dashboard controller
         self.dashboard_controller = DashboardPageController(
             dashboard_ui=self.dashboard_ui,
@@ -121,7 +108,6 @@ class OwnerController:
         self.inventory_ui = Ui_OWNER_INVENTORY()
         self.inventory_widget = QWidget()
         self.inventory_ui.setupUi(self.inventory_widget)
-
         self.inventory_page_controller = InventoryPageController(
             inventory_ui=self.inventory_ui,
             inventory_widget=self.inventory_widget,
@@ -166,23 +152,7 @@ class OwnerController:
         )
 
     def _init_stock_history(self):
-        # CONSISTENT: stock_history_widget created and used correctly
-        #self.stock_history_widget = QWidget() # Corrected: used _widget
-        # self.stock_history_ui = Ui_OWNER_STOCKHISTORY()
-        # self.stock_history_ui.setupUi(self.stock_history_widget) # Corrected: used stock_history_widget
         self.stack.addWidget(self.stock_history_widget) # Corrected: used stock_history_widget
-
-        # --- Use the already created controller instance ---
-        # Assign the UI and widget to the existing controller
-        # (The instance created in OwnerController.__init__ is self.OStk_Hstry_controller)
-        # self.OStk_Hstry_controller.ui = self.stock_history_ui
-        # self.OStk_Hstry_controller.history_widget = self.stock_history_widget # If your StockHistoryPageController uses this attribute
-
-        # Call a method on the existing controller to set up its view, load data, etc.
-        #self.OStk_Hstry_controller.setup_history_view() # Example method call
-
-        # (Optional: If you still want a local variable name for clarity within this method)
-        # self.stkhistory_controller = self.OStk_Hstry_controller
 
     def _init_account(self):
         # CONSISTENT: account_widget created and used correctly
@@ -192,7 +162,6 @@ class OwnerController:
 
         # Initialize account controller
         self.account_controller = AccountPageController(self.account_ui, self)
-
         self.stack.addWidget(self.account_widget) # Corrected: used account_widget
 
     def _connect_navigation(self):
@@ -234,7 +203,6 @@ class OwnerController:
         self.dashboard_ui.btnViewSalesReport.clicked.connect(
             lambda: [self.stack.setCurrentWidget(self.sales_widget),
                      self.set_active_button('sales')])
-
         self.dashboard_ui.btnViewMore_Inventory.clicked.connect(
             lambda: [self.stack.setCurrentWidget(self.inventory_widget),
                      self.set_active_button('inventory')])
@@ -423,6 +391,5 @@ class OwnerController:
 
         # Store current active button name
         self.current_active_button = button_name
-
         # Force application to process all pending events
         QApplication.processEvents()

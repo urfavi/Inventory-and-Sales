@@ -69,10 +69,10 @@ class Ui_OWNER_INVENTORY(object):
 "    }")
         self.pushButton_SEARCHitems.setObjectName("pushButton_SEARCHitems")
         self.textBrowser_inv_ROOF_lowstk_warning = QtWidgets.QTextBrowser(OWNER_INVENTORY)
-        self.textBrowser_inv_ROOF_lowstk_warning.setGeometry(QtCore.QRect(340, 890, 1531, 71))
+        self.textBrowser_inv_ROOF_lowstk_warning.setGeometry(QtCore.QRect(340, 890, 1531, 81))
         font = QtGui.QFont()
         font.setFamily("Verdana")
-        font.setPointSize(10)
+        font.setPointSize(16)
         self.textBrowser_inv_ROOF_lowstk_warning.setFont(font)
         self.textBrowser_inv_ROOF_lowstk_warning.setStyleSheet("\n"
 "    background-color: #ffffff;\n"
@@ -4130,10 +4130,10 @@ class Ui_OWNER_INVENTORY(object):
         self.inventoryText.setObjectName("inventoryText")
 
         self.retranslateUi(OWNER_INVENTORY)
-        self.INVENTORY_afterBUTTONSclick.setCurrentIndex(0)
-        self.Add_Select_Prod_Type.setCurrentIndex(0)
-        self.Edit_Select_Prod_Type.setCurrentIndex(1)
-        self.Delete_Select_Prod_Type.setCurrentIndex(3)
+        self.INVENTORY_afterBUTTONSclick.setCurrentIndex(7)
+        self.Add_Select_Prod_Type.setCurrentIndex(4)
+        self.Edit_Select_Prod_Type.setCurrentIndex(0)
+        self.Delete_Select_Prod_Type.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(OWNER_INVENTORY)
 
     def retranslateUi(self, OWNER_INVENTORY):
@@ -4144,8 +4144,8 @@ class Ui_OWNER_INVENTORY(object):
         self.textBrowser_inv_ROOF_lowstk_warning.setHtml(_translate("OWNER_INVENTORY", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Verdana\',\'sans-serif\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
+"</style></head><body style=\" font-family:\'Verdana\',\'sans-serif\'; font-size:16pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt;\"><br /></p></body></html>"))
         self.pushButton_Inventory_ALL_ITEMS_table.setText(_translate("OWNER_INVENTORY", "All Items"))
         self.pushButton_Inventory_ROOF_table.setText(_translate("OWNER_INVENTORY", "Roof"))
         self.pushButton_Inventory_SPANDREL_table.setText(_translate("OWNER_INVENTORY", "Spandrel"))

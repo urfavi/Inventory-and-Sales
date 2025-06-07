@@ -25,7 +25,7 @@ class InventoryPageController:
     COL_UPDATED_AT = 12
 
     # <--- ASA ANII! RIGHT HERE IN THE __init__ SIGNATURE!
-    # I've also removed OStk_Hstry_controller as a parameter because we decided to use self.stock_history_model directly.
+    # I've also removed OStk_Hstry_controller as a parameter because we decided to use self.OStk_Hstry_model directly.
     def __init__(self, inventory_ui, inventory_widget, current_user_shop_id=None, current_user_id=None, current_username=None, inventory_data=None, parent=None, Ostk_Hstry_controller_instance=None, ODashboard_pagecontroller_instance=None): # <--- ADD THIS PARAMETER
         self.ui = inventory_ui
         self.inventory_data = inventory_data or {}
@@ -43,16 +43,16 @@ class InventoryPageController:
         self.database = Database()
         self.database.connect()
         self.inventory_model = InventoryModel(self.database)
-        self.stock_history_model = StockHistoryModel(self.database)
+        self.OStk_Hstry_model = StockHistoryModel(self.database)
     
         # If controller instance is provided, use it; otherwise create a new one
         if Ostk_Hstry_controller_instance:
             self.OStk_Hstry_controller = Ostk_Hstry_controller_instance
         else:
             # You'll need to import the controller class
-            from controllers.OStk_Hstry_controller import StockHistoryController
-            self.OStk_Hstry_controller = StockHistoryController(
-                stock_history_model=self.stock_history_model,
+            from controllers.OStk_Hstry_controller import StockHistoryPageController
+            self.OStk_Hstry_controller = StockHistoryPageController(
+                OStk_Hstry_model=self.OStk_Hstry_model,
                 database=self.database
             )
 
@@ -446,10 +446,9 @@ class InventoryPageController:
         low_stock_items = self.inventory_model.get_low_stock_products() 
         print(f"DEBUG: Items received in controller: {low_stock_items}") # This will confirm it's a list of dictionaries
         
-        warning_message = "Low Stock Items:\n"
+        warning_message = "Warning! These items are low in stock: \n"
         if low_stock_items:
             print("DEBUG: Low stock items found, building message.")
-            warning_message += "Warning! These items are low of stock.\n" 
             for item in low_stock_items:
                 # Change these lines to use dictionary keys:
                 product_name = item['product_name']       # Access by key 'product_name'
@@ -702,7 +701,7 @@ class InventoryPageController:
             )
 
             # LOG THE ADD ACTION (MODIFIED TO USE OStk_Hstry_controller)
-            if self.OStk_Hstry_controller and self.stock_history_model:
+            if self.OStk_Hstry_controller and self.OStk_Hstry_model:
                 self.OStk_Hstry_controller.log_stock_action(
                     product_spec_id=spec_id,
                     product_id=product_id,
@@ -716,6 +715,7 @@ class InventoryPageController:
             else:
                 print("WARNING: OStk_Hstry_controller not available for ADD logging in confirm_add_stock.")
             
+            self.update_low_stock_warning()
             self.OStk_Hstry_controller.load_stock_history()
             self._show_success_message(f"{product_type} stock added successfully!")
             self.view_all_items_table_inventory() # Refresh your table #e ctr; + z gaile of di mo worll
