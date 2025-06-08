@@ -87,19 +87,6 @@ class Ui_CASHIER_DASHBOARD(object):
 "")
         self.salesbox.setText("")
         self.salesbox.setObjectName("salesbox")
-        self.value_Tod_sales = QtWidgets.QLabel(self.Todays_Sales_box)
-        self.value_Tod_sales.setGeometry(QtCore.QRect(80, 30, 341, 121))
-        font = QtGui.QFont()
-        font.setFamily("Montserrat ExtraBold")
-        font.setPointSize(32)
-        font.setBold(True)
-        font.setWeight(75)
-        self.value_Tod_sales.setFont(font)
-        self.value_Tod_sales.setStyleSheet("color:#ebe0cc;\n"
-"background: transparent;\n"
-"")
-        self.value_Tod_sales.setAlignment(QtCore.Qt.AlignCenter)
-        self.value_Tod_sales.setObjectName("value_Tod_sales")
         self.label_4 = QtWidgets.QLabel(self.Todays_Sales_box)
         self.label_4.setGeometry(QtCore.QRect(150, 120, 211, 61))
         font = QtGui.QFont()
@@ -111,6 +98,19 @@ class Ui_CASHIER_DASHBOARD(object):
         self.label_4.setStyleSheet("color: #ffffff;\n"
 "background: transparent;")
         self.label_4.setObjectName("label_4")
+        self.value_Tod_sales = QtWidgets.QLabel(self.Todays_Sales_box)
+        self.value_Tod_sales.setGeometry(QtCore.QRect(70, 30, 361, 111))
+        font = QtGui.QFont()
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(32)
+        font.setBold(False)
+        font.setWeight(50)
+        self.value_Tod_sales.setFont(font)
+        self.value_Tod_sales.setStyleSheet("color:#ebe0cc;\n"
+"background: transparent;\n"
+"")
+        self.value_Tod_sales.setAlignment(QtCore.Qt.AlignCenter)
+        self.value_Tod_sales.setObjectName("value_Tod_sales")
         self.Todays_total_orders_box = QtWidgets.QFrame(self.frame_46)
         self.Todays_total_orders_box.setGeometry(QtCore.QRect(40, 270, 471, 211))
         self.Todays_total_orders_box.setStyleSheet("#ordersbox\n"
@@ -179,8 +179,8 @@ class Ui_CASHIER_DASHBOARD(object):
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
         font.setPointSize(32)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setBold(False)
+        font.setWeight(50)
         self.value_Tod_revenue.setFont(font)
         self.value_Tod_revenue.setStyleSheet("color:#ebe0cc;\n"
 "background: transparent;\n"
@@ -228,7 +228,7 @@ class Ui_CASHIER_DASHBOARD(object):
         self.bestsellersbox.setText("")
         self.bestsellersbox.setObjectName("bestsellersbox")
         self.label_10 = QtWidgets.QLabel(self.dashboard_bestsellers_box)
-        self.label_10.setGeometry(QtCore.QRect(270, 10, 461, 61))
+        self.label_10.setGeometry(QtCore.QRect(270, 10, 461, 101))
         font = QtGui.QFont()
         font.setFamily("Montserrat ExtraBold")
         font.setPointSize(30)
@@ -310,7 +310,7 @@ class Ui_CASHIER_DASHBOARD(object):
         self.Logo.setGeometry(QtCore.QRect(30, 50, 241, 171))
         self.Logo.setStyleSheet("background: transparent;")
         self.Logo.setText("")
-        self.Logo.setPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/JJLOGO.png"))
+        self.Logo.setPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/JJLOGO.png"))
         self.Logo.setScaledContents(True)
         self.Logo.setAlignment(QtCore.Qt.AlignCenter)
         self.Logo.setObjectName("Logo")
@@ -342,7 +342,7 @@ class Ui_CASHIER_DASHBOARD(object):
 "}\n"
 "")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/dashboard_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/dashboard_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Dashboard.setIcon(icon)
         self.pushButton_Dashboard.setIconSize(QtCore.QSize(40, 40))
         self.pushButton_Dashboard.setObjectName("pushButton_Dashboard")
@@ -371,7 +371,7 @@ class Ui_CASHIER_DASHBOARD(object):
 "}\n"
 "")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/inventory_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/inventory_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Order_History.setIcon(icon1)
         self.pushButton_Order_History.setIconSize(QtCore.QSize(46, 42))
         self.pushButton_Order_History.setObjectName("pushButton_Order_History")
@@ -400,7 +400,7 @@ class Ui_CASHIER_DASHBOARD(object):
 "}\n"
 "")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/sales_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/sales_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Sales.setIcon(icon2)
         self.pushButton_Sales.setIconSize(QtCore.QSize(35, 35))
         self.pushButton_Sales.setObjectName("pushButton_Sales")
@@ -429,7 +429,7 @@ class Ui_CASHIER_DASHBOARD(object):
 "}\n"
 "")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/account_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/account_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Account.setIcon(icon3)
         self.pushButton_Account.setIconSize(QtCore.QSize(48, 48))
         self.pushButton_Account.setObjectName("pushButton_Account")
@@ -456,7 +456,7 @@ class Ui_CASHIER_DASHBOARD(object):
 "    font-weight: 700;\n"
 "}")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/WHITElogout_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/WHITElogout_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_LogOut.setIcon(icon4)
         self.pushButton_LogOut.setIconSize(QtCore.QSize(38, 38))
         self.pushButton_LogOut.setObjectName("pushButton_LogOut")
@@ -500,7 +500,7 @@ class Ui_CASHIER_DASHBOARD(object):
 "}\n"
 "")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/orders_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/orders_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Orders.setIcon(icon5)
         self.pushButton_Orders.setIconSize(QtCore.QSize(46, 42))
         self.pushButton_Orders.setObjectName("pushButton_Orders")
@@ -513,8 +513,8 @@ class Ui_CASHIER_DASHBOARD(object):
         CASHIER_DASHBOARD.setWindowTitle(_translate("CASHIER_DASHBOARD", "Form"))
         self.timeLabel.setText(_translate("CASHIER_DASHBOARD", " 09 : 10 : 54 AM"))
         self.dateLabel.setText(_translate("CASHIER_DASHBOARD", "<html><head/><body><p align=\"center\"><span style=\" font-size:38pt; color:#022162;\">March 1, 2025</span><br/><span style=\" font-size:20pt; color:#b2423c;\">Monday</span></p></body></html>"))
-        self.value_Tod_sales.setText(_translate("CASHIER_DASHBOARD", "800,000"))
         self.label_4.setText(_translate("CASHIER_DASHBOARD", "Today’s Sales"))
+        self.value_Tod_sales.setText(_translate("CASHIER_DASHBOARD", "800,000"))
         self.value_Tod_orders.setText(_translate("CASHIER_DASHBOARD", "300"))
         self.label_8.setText(_translate("CASHIER_DASHBOARD", "Today’s Total Orders"))
         self.value_Tod_revenue.setText(_translate("CASHIER_DASHBOARD", "900,000"))

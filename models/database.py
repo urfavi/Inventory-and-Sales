@@ -96,11 +96,18 @@ class Database:
             raise # Re-raise the exception
 
     def fetch_one(self, query, params=None):
-        """
-        Fetches a single row from a SELECT query as a dictionary.
-        Uses execute_query internally.
-        """
-        return self.execute_query(query, params, fetch_all=False)
+        print(f"[DEBUG] fetch_one called with query: '{query}' and params: {params}")
+        if not query or not isinstance(query, str):
+            raise ValueError(f"Query must be a non-empty string, got: {type(query)} - {query}")
+        
+        if params and not isinstance(params, (tuple, list, dict)):
+            raise ValueError(f"Params must be tuple, list or dict, got: {type(params)} - {params}")
+        
+        try:
+            return self.execute_query(query, params, fetch_all=False)
+        except Exception as e:
+            print(f"[ERROR] fetch_one failed: {str(e)}")
+            raise
 
     def fetch_all(self, query, params=None):
         """

@@ -6,9 +6,10 @@ from gui_classes.UI_ForgotPass import Ui_ForgotPass
 from gui_classes.UI_Landing import Ui_JJ_LANDING 
 from controllers.auth_controller import authenticate_user
 from controllers.owner_controller import OwnerController
-#from controllers.cashier_controller import CashierController  # Commented out for now
+from controllers.cashier_controller import CashierController  # Commented out for now
 from controllers.forgotpass_controller import ForgotPasswordWindow
 from cryptography.fernet import Fernet
+import bcrypt
 
 # Declare global window holders
 active_windows = {}
@@ -31,6 +32,7 @@ class LandingWindow(QMainWindow):
 class Login(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.database = Database() 
         self.ui = Ui_LOGIN()
         self.ui.setupUi(self)
 
@@ -128,47 +130,104 @@ class Login(QMainWindow):
 
     def handle_login_button_clicked(self):
         print("Login button clicked!")
-        username = self.ui.login_usrname.text()
-        password = self.ui.login_password.text()
+        username = self.ui.login_usrname.text().strip()
+        password = self.ui.login_password.text().strip()
 
-        try:
-            user = authenticate_user(username, password)
-            if user:
-                self._handle_successful_login(username, password, user['role'])
-            else:
+        if not username or not password:
+            self.show_error_message("Both username and password are required!")
+            return
+
+        try:  # Make sure this is properly indented and has a colon
+            # Get user from database
+            query = """SELECT user_acc_id, user_acc_username, user_acc_password_hash, user_acc_role 
+                    FROM user_account WHERE user_acc_username = %s"""
+            user = self.database.fetch_one(query, (username,))
+            
+            print("DEBUG - User query result:", user)  # Debug line
+
+            if not user:
                 self.show_error_message("Invalid username or password!")
-        except Exception as e:
-            print(f"Login error: {e}")
-            self.show_error_message("Login failed. Check console.")
+                return
 
-    def _handle_successful_login(self, username, password, role):
+            # Verify password
+            if not bcrypt.checkpw(password.encode(), user['user_acc_password_hash'].encode()):
+                self.show_error_message("Invalid username or password!")
+                return
+
+            # Handle successful login
+            self._handle_successful_login(user)
+
+        except Exception as e:  # Make sure you have this except block
+            print(f"Login error: {str(e)}")
+            self.show_error_message("Login failed. Please try again.")
+
+    def _handle_successful_login(self, user):
         try:
+            if not user or not isinstance(user, dict):
+                raise ValueError("Invalid user data received")
+                
+            required_fields = ['user_acc_username', 'user_acc_role', 'user_acc_id']
+            for field in required_fields:
+                if field not in user:
+                    raise ValueError(f"Missing required field: {field}")
+
+            username = user['user_acc_username']
+            role = user['user_acc_role']
+            user_id = user['user_acc_id']
+            
+            print(f"DEBUG - Logging in user: {username}, role: {role}")  # Debug line
+
             if hasattr(self.ui, 'checkBox_rememberme') and self.ui.checkBox_rememberme.isChecked():
-                self._save_credentials(username, password)
+                self._save_credentials(username, "")
 
             if role == 'OWNER':
-                self._open_owner_interface()
-            # Commented cashier role for now
-            # elif role == 'CASHIER':
-            #     self._open_cashier_interface()
+                self._open_owner_interface(user)
+            elif role == 'CASHIER':
+                self._open_cashier_interface(user)
             else:
                 raise ValueError(f"Unknown role: {role}")
+                
         except Exception as e:
-            print(f"Login flow error: {e}")
-            self.show_error_message("Login failed. Check console.")
+            print(f"Login flow error details: {str(e)}")
+            self.show_error_message("Login failed. Please contact support.")
 
-    def _open_owner_interface(self):
-        self.hide()
-        if 'owner' not in active_windows or active_windows['owner'] is None:
-            active_windows['owner'] = OwnerController(self)
-        active_windows['owner'].show()
+    def _open_owner_interface(self, user):
+        try:
+            self.hide()
+            if 'owner' not in active_windows or active_windows['owner'] is None:
+                active_windows['owner'] = OwnerController(
+                    main_controller=self,
+                    current_user_id=user['user_acc_id'],
+                    current_username=user['user_acc_username']
+                )
+            active_windows['owner'].show()
+        except Exception as e:
+            print(f"Error opening owner interface: {e}")
+            self.show_error_message("Could not open owner interface")
 
-    # Commented cashier interface method until integrated
-    # def _open_cashier_interface(self):
-    #     self.hide()
-    #     if 'cashier' not in active_windows or active_windows['cashier'] is None:
-    #         active_windows['cashier'] = CashierController(self)
-    #     active_windows['cashier'].show()
+    def _open_cashier_interface(self, user):
+        try:
+            self.hide()
+            if 'cashier' not in active_windows or active_windows['cashier'] is None:
+                active_windows['cashier'] = CashierController(
+                    main_controller=self,
+                    database=self.database,  # Make sure this is the correct database instance
+                    user_id=user['user_acc_id']
+                )
+            active_windows['cashier'].show()
+        except Exception as e:
+            print(f"Error opening cashier interface: {e}")
+            self.show_error_message("Could not open cashier interface")
+            self.show()  # Show login window again if cashier window fails
+    
+    def _get_user_data(self, username, role):
+        """Helper method to get user data"""
+        query = """
+            SELECT user_acc_id, user_acc_username 
+            FROM user_account 
+            WHERE user_acc_username = %s AND user_acc_role = %s
+        """
+        return self.database.fetch_one(query, (username, role))
 
     def return_to_landing(self):
         self.hide()

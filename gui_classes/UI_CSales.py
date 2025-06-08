@@ -38,6 +38,7 @@ class Ui_CASHIER_SALES(object):
         self.comboBox_filterSales.addItem("")
         self.comboBox_filterSales.addItem("")
         self.comboBox_filterSales.addItem("")
+        self.comboBox_filterSales.addItem("")
         self.frame_29 = QtWidgets.QFrame(self.frame_45)
         self.frame_29.setGeometry(QtCore.QRect(50, 150, 661, 61))
         self.frame_29.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -171,7 +172,7 @@ class Ui_CASHIER_SALES(object):
         font.setPointSize(14)
         item.setFont(font)
         self.tableWidget_salesSummary.setHorizontalHeaderItem(4, item)
-        self.tableWidget_salesSummary.horizontalHeader().setDefaultSectionSize(345)
+        self.tableWidget_salesSummary.horizontalHeader().setDefaultSectionSize(310)
         self.stackedWidget_Sales.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
@@ -224,7 +225,7 @@ class Ui_CASHIER_SALES(object):
         self.tableWidget_orderDetails.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_orderDetails.setHorizontalHeaderItem(4, item)
-        self.tableWidget_orderDetails.horizontalHeader().setDefaultSectionSize(345)
+        self.tableWidget_orderDetails.horizontalHeader().setDefaultSectionSize(310)
         self.stackedWidget_Sales.addWidget(self.page_2)
         self.LeftMenuBar = QtWidgets.QFrame(CASHIER_SALES)
         self.LeftMenuBar.setGeometry(QtCore.QRect(0, 0, 301, 1011))
@@ -253,7 +254,7 @@ class Ui_CASHIER_SALES(object):
         self.Logo.setGeometry(QtCore.QRect(30, 50, 241, 171))
         self.Logo.setStyleSheet("background: transparent;")
         self.Logo.setText("")
-        self.Logo.setPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/JJLOGO.png"))
+        self.Logo.setPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/JJLOGO.png"))
         self.Logo.setScaledContents(True)
         self.Logo.setAlignment(QtCore.Qt.AlignCenter)
         self.Logo.setObjectName("Logo")
@@ -285,7 +286,7 @@ class Ui_CASHIER_SALES(object):
 "}\n"
 "")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/dashboard_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/dashboard_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Dashboard.setIcon(icon)
         self.pushButton_Dashboard.setIconSize(QtCore.QSize(40, 40))
         self.pushButton_Dashboard.setObjectName("pushButton_Dashboard")
@@ -314,7 +315,7 @@ class Ui_CASHIER_SALES(object):
 "}\n"
 "")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/inventory_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon1.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/inventory_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Order_History.setIcon(icon1)
         self.pushButton_Order_History.setIconSize(QtCore.QSize(46, 42))
         self.pushButton_Order_History.setObjectName("pushButton_Order_History")
@@ -343,7 +344,7 @@ class Ui_CASHIER_SALES(object):
 "}\n"
 "")
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/sales_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/sales_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Sales.setIcon(icon2)
         self.pushButton_Sales.setIconSize(QtCore.QSize(35, 35))
         self.pushButton_Sales.setObjectName("pushButton_Sales")
@@ -372,7 +373,7 @@ class Ui_CASHIER_SALES(object):
 "}\n"
 "")
         icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/account_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon3.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/account_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Account.setIcon(icon3)
         self.pushButton_Account.setIconSize(QtCore.QSize(48, 48))
         self.pushButton_Account.setObjectName("pushButton_Account")
@@ -399,7 +400,7 @@ class Ui_CASHIER_SALES(object):
 "    font-weight: 700;\n"
 "}")
         icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/WHITElogout_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon4.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/WHITElogout_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_LogOut.setIcon(icon4)
         self.pushButton_LogOut.setIconSize(QtCore.QSize(38, 38))
         self.pushButton_LogOut.setObjectName("pushButton_LogOut")
@@ -443,13 +444,13 @@ class Ui_CASHIER_SALES(object):
 "}\n"
 "")
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("views\\../../Cashier UI/JJ-ELEVATE-Final-Project-main/ui/resources/images/orders_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap("views\\../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/orders_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_Orders.setIcon(icon5)
         self.pushButton_Orders.setIconSize(QtCore.QSize(46, 42))
         self.pushButton_Orders.setObjectName("pushButton_Orders")
 
         self.retranslateUi(CASHIER_SALES)
-        self.stackedWidget_Sales.setCurrentIndex(1)
+        self.stackedWidget_Sales.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(CASHIER_SALES)
 
     def retranslateUi(self, CASHIER_SALES):
@@ -460,6 +461,7 @@ class Ui_CASHIER_SALES(object):
         self.comboBox_filterSales.setItemText(1, _translate("CASHIER_SALES", "Daily"))
         self.comboBox_filterSales.setItemText(2, _translate("CASHIER_SALES", "Weekly"))
         self.comboBox_filterSales.setItemText(3, _translate("CASHIER_SALES", "Monthly"))
+        self.comboBox_filterSales.setItemText(4, _translate("CASHIER_SALES", "All "))
         self.pushButton_summaryView.setText(_translate("CASHIER_SALES", "Summary View"))
         self.pushButton_salesDetail.setText(_translate("CASHIER_SALES", "Detailed View"))
         self.SALES_label.setText(_translate("CASHIER_SALES", "Sales Report"))
