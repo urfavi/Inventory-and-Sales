@@ -9,6 +9,7 @@ from controllers.CDashboard_pageController import DashboardPageController
 from controllers.COrders_pageController import OrdersPageController
 from controllers.COrderHistory_pageController import OrderHistoryPageController
 from controllers.CSales_pageController import SalesPageController
+from controllers.CAcc_pageController import AccountPageController
 from controllers.date_time import DateTimeController
 
 class CashierController:
@@ -77,6 +78,19 @@ class CashierController:
             current_username=self.current_username,
             current_shop_id=self.current_user_shop_id
         )
+
+    def update_dashboard_data(self):
+        """Public method to trigger dashboard data update."""
+        self.dashboard_controller.update_dashboard_data()
+        self.dashboard_controller.add_best_sellers_chart() # Also refresh the chart
+
+    def show(self):
+        """Show the cashier interface"""
+        self.stack.setCurrentWidget(self.dashboard_widget)
+        self.set_active_button('dashboard')
+        # Ensure dashboard data is up-to-date when showing the cashier interface
+        self.update_dashboard_data() 
+        self.stack.show()
     
     def _init_orders(self):
         self.orders_widget = QWidget()
@@ -119,9 +133,18 @@ class CashierController:
     
     def _init_account(self):
         self.account_widget = QWidget()
-        self.account_ui = Ui_CASHIER_ACCOUNT()
+        self.account_ui = Ui_CASHIER_ACCOUNT() # This assumes you have Ui_CASHIER_ACCOUNT defined
         self.account_ui.setupUi(self.account_widget)
         self.stack.addWidget(self.account_widget)
+        
+        # Instantiate the new AccountPageController
+        self.account_controller = AccountPageController(
+            account_ui=self.account_ui,
+            parent_controller=self, # Pass self (CashierController instance)
+            current_user_id=self.current_user_id,
+            current_username=self.current_username,
+            current_shop_id=self.current_user_shop_id
+        )
         
     def _connect_navigation(self):
         """Connect all navigation buttons consistently"""
