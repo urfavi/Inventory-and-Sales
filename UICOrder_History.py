@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'views/UI_CStockHistory.ui'
+# Form implementation generated from reading ui file 'UICOrder_History.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #

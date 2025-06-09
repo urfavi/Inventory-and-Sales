@@ -1,20 +1,28 @@
 import re
+import logging # Add logging import
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtCore import QSettings
-from models.database import Database
+from PyQt5.QtWidgets import QWidget
 from models.OAcc_pageModel import OwnerModel
 from models.OAcc_pageModel import CashierModel  # 💡 Make sure this import exists
 
 class AccountPageController:
     PASSWORD_REGEX = re.compile(r'^(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$')
 
-    def __init__(self, account_ui, owner_data, parent=None):
-        self.ui = account_ui
-        self.owner_data = owner_data
-        self.parent = parent
+    def __init__(self, account_ui, account_widget, parent, current_user_id, current_username, database_connection):
+        self.logger = logging.getLogger(__name__) # Initialize logger
+        self.logger.setLevel(logging.DEBUG) # Set logging level
 
-        self.database = Database()
-        self.database.connect()
+        self.ui = account_ui
+        self.widget = account_widget # This is the QWidget holding the UI
+        self.parent = parent # This is the OwnerController instance
+        self.current_user_id = current_user_id
+        self.current_username = current_username
+        self.database = database_connection # Store the passed-in database connection
+
+        # Remove the internal database connection and replace it with the passed one
+        # self.database = Database() # REMOVE THIS LINE
+        # self.database.connect() # REMOVE THIS LINE
 
         self.owner_model = OwnerModel(self.database)
         self.cashier_model = CashierModel(self.database)
@@ -24,7 +32,9 @@ class AccountPageController:
 
         self.ui.stackedWidget_AccountBtns.setCurrentIndex(0)
         self.set_active_button(self.ui.pushButton_VIEW)
-        self.view_owner_account()
+        self.view_owner_account() # This will now use current_user_id
+
+        self.logger.debug("AccountPageController initialized successfully.")
 
     def _setup_button_states(self):
         self.main_buttons = [
@@ -224,7 +234,7 @@ class AccountPageController:
         return True
 
     def show_message(self, title, message, icon=QMessageBox.Information):
-        msg = QMessageBox(self.parent)
+        msg = QMessageBox(self.widget)
         msg.setIcon(icon)
         msg.setWindowTitle(title)
         msg.setText(message)

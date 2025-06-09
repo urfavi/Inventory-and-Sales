@@ -411,3 +411,13 @@ class Ui_CASHIER_ORDER_HISTORY(object):
         self.pushButton_LogOut.setText(_translate("CASHIER_ORDER_HISTORY", "   Log out"))
         self.JJelevate_text_3.setText(_translate("CASHIER_ORDER_HISTORY", "Elevate"))
         self.pushButton_Orders.setText(_translate("CASHIER_ORDER_HISTORY", " Orders"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    CASHIER_ORDER_HISTORY = QtWidgets.QWidget()
+    ui = Ui_CASHIER_ORDER_HISTORY()
+    ui.setupUi(CASHIER_ORDER_HISTORY)
+    CASHIER_ORDER_HISTORY.show()
+    sys.exit(app.exec_())

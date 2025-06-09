@@ -64,7 +64,7 @@ class Ui_OWNER_DASHBOARD(object):
         self.frame_46.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_46.setObjectName("frame_46")
         self.Todays_Sales_box = QtWidgets.QFrame(self.frame_46)
-        self.Todays_Sales_box.setGeometry(QtCore.QRect(20, 20, 491, 171))
+        self.Todays_Sales_box.setGeometry(QtCore.QRect(770, 30, 361, 161))
         self.Todays_Sales_box.setStyleSheet("#salesbox\n"
 "{\n"
 "border: 1px solid black;\n"
@@ -77,7 +77,7 @@ class Ui_OWNER_DASHBOARD(object):
         self.Todays_Sales_box.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Todays_Sales_box.setObjectName("Todays_Sales_box")
         self.salesbox = QtWidgets.QLabel(self.Todays_Sales_box)
-        self.salesbox.setGeometry(QtCore.QRect(14, 5, 471, 161))
+        self.salesbox.setGeometry(QtCore.QRect(20, 20, 321, 131))
         self.salesbox.setStyleSheet("\n"
 "    background-color: #374550;\n"
 "    border-radius: 25;\n"
@@ -87,10 +87,10 @@ class Ui_OWNER_DASHBOARD(object):
         self.salesbox.setText("")
         self.salesbox.setObjectName("salesbox")
         self.value_Tod_sales = QtWidgets.QLabel(self.Todays_Sales_box)
-        self.value_Tod_sales.setGeometry(QtCore.QRect(80, 20, 341, 91))
+        self.value_Tod_sales.setGeometry(QtCore.QRect(50, 50, 261, 51))
         font = QtGui.QFont()
         font.setFamily("Montserrat ExtraBold")
-        font.setPointSize(32)
+        font.setPointSize(22)
         font.setBold(True)
         font.setWeight(75)
         self.value_Tod_sales.setFont(font)
@@ -101,7 +101,7 @@ class Ui_OWNER_DASHBOARD(object):
         self.value_Tod_sales.setAlignment(QtCore.Qt.AlignCenter)
         self.value_Tod_sales.setObjectName("value_Tod_sales")
         self.label_4 = QtWidgets.QLabel(self.Todays_Sales_box)
-        self.label_4.setGeometry(QtCore.QRect(160, 100, 201, 61))
+        self.label_4.setGeometry(QtCore.QRect(80, 100, 201, 51))
         font = QtGui.QFont()
         font.setFamily("Montserrat SemiBold")
         font.setPointSize(14)
@@ -112,7 +112,7 @@ class Ui_OWNER_DASHBOARD(object):
 "background: transparent;")
         self.label_4.setObjectName("label_4")
         self.Todays_total_orders_box = QtWidgets.QFrame(self.frame_46)
-        self.Todays_total_orders_box.setGeometry(QtCore.QRect(540, 20, 451, 171))
+        self.Todays_total_orders_box.setGeometry(QtCore.QRect(1140, 30, 361, 161))
         self.Todays_total_orders_box.setStyleSheet("#ordersbox\n"
 "{\n"
 "border: 1px solid black;\n"
@@ -122,7 +122,7 @@ class Ui_OWNER_DASHBOARD(object):
         self.Todays_total_orders_box.setFrameShadow(QtWidgets.QFrame.Raised)
         self.Todays_total_orders_box.setObjectName("Todays_total_orders_box")
         self.ordersbox = QtWidgets.QLabel(self.Todays_total_orders_box)
-        self.ordersbox.setGeometry(QtCore.QRect(0, 0, 451, 171))
+        self.ordersbox.setGeometry(QtCore.QRect(10, 20, 341, 131))
         self.ordersbox.setStyleSheet("\n"
 "    background-color: #c25b55;\n"
 "    border-radius: 25;\n"
@@ -132,7 +132,7 @@ class Ui_OWNER_DASHBOARD(object):
         self.ordersbox.setText("")
         self.ordersbox.setObjectName("ordersbox")
         self.value_Tod_orders = QtWidgets.QLabel(self.Todays_total_orders_box)
-        self.value_Tod_orders.setGeometry(QtCore.QRect(100, 20, 261, 91))
+        self.value_Tod_orders.setGeometry(QtCore.QRect(100, 40, 161, 61))
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
         font.setPointSize(32)
@@ -145,61 +145,16 @@ class Ui_OWNER_DASHBOARD(object):
         self.value_Tod_orders.setAlignment(QtCore.Qt.AlignCenter)
         self.value_Tod_orders.setObjectName("value_Tod_orders")
         self.label_8 = QtWidgets.QLabel(self.Todays_total_orders_box)
-        self.label_8.setGeometry(QtCore.QRect(90, 100, 301, 71))
+        self.label_8.setGeometry(QtCore.QRect(40, 90, 281, 71))
         font = QtGui.QFont()
         font.setFamily("Montserrat Medium")
         font.setPointSize(14)
-        font.setBold(False)
-        font.setWeight(50)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_8.setFont(font)
         self.label_8.setStyleSheet("color: #ffffff;\n"
 "background: transparent;")
         self.label_8.setObjectName("label_8")
-        self.Todays_revenue_box = QtWidgets.QFrame(self.frame_46)
-        self.Todays_revenue_box.setGeometry(QtCore.QRect(1010, 20, 491, 171))
-        self.Todays_revenue_box.setStyleSheet("#revenue\n"
-"{\n"
-"border: 1px solid black;\n"
-"border-radius: 10px;\n"
-"}")
-        self.Todays_revenue_box.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.Todays_revenue_box.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.Todays_revenue_box.setObjectName("Todays_revenue_box")
-        self.revenuebox = QtWidgets.QLabel(self.Todays_revenue_box)
-        self.revenuebox.setGeometry(QtCore.QRect(10, 0, 471, 171))
-        self.revenuebox.setStyleSheet("\n"
-"    background-color: #374550;\n"
-"    border-radius: 25;\n"
-"    padding: 10px;\n"
-"\n"
-"")
-        self.revenuebox.setText("")
-        self.revenuebox.setObjectName("revenuebox")
-        self.value_Tod_revenue = QtWidgets.QLabel(self.Todays_revenue_box)
-        self.value_Tod_revenue.setGeometry(QtCore.QRect(80, 20, 351, 91))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(32)
-        font.setBold(True)
-        font.setWeight(75)
-        self.value_Tod_revenue.setFont(font)
-        self.value_Tod_revenue.setStyleSheet("color:#ebe0cc;\n"
-"background: transparent;\n"
-"")
-        self.value_Tod_revenue.setText("")
-        self.value_Tod_revenue.setAlignment(QtCore.Qt.AlignCenter)
-        self.value_Tod_revenue.setObjectName("value_Tod_revenue")
-        self.label_9 = QtWidgets.QLabel(self.Todays_revenue_box)
-        self.label_9.setGeometry(QtCore.QRect(140, 100, 301, 71))
-        font = QtGui.QFont()
-        font.setFamily("Montserrat SemiBold")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
-        self.label_9.setFont(font)
-        self.label_9.setStyleSheet("color: #ffffff;\n"
-"background: transparent;")
-        self.label_9.setObjectName("label_9")
         self.dashboard_bestsellers_box = QtWidgets.QFrame(self.frame_46)
         self.dashboard_bestsellers_box.setGeometry(QtCore.QRect(30, 210, 711, 521))
         self.dashboard_bestsellers_box.setStyleSheet("#chartd\n"
@@ -230,7 +185,7 @@ class Ui_OWNER_DASHBOARD(object):
         self.bestsellersbox.setText("")
         self.bestsellersbox.setObjectName("bestsellersbox")
         self.label_10 = QtWidgets.QLabel(self.dashboard_bestsellers_box)
-        self.label_10.setGeometry(QtCore.QRect(190, 0, 341, 71))
+        self.label_10.setGeometry(QtCore.QRect(180, 0, 351, 71))
         font = QtGui.QFont()
         font.setFamily("Montserrat ExtraBold")
         font.setPointSize(30)
@@ -475,6 +430,18 @@ class Ui_OWNER_DASHBOARD(object):
         self.lowstock_product_label_4.raise_()
         self.lowstock_qty_label_3.raise_()
         self.lowstock_qty_label_4.raise_()
+        self.AdminDashboard = QtWidgets.QLabel(self.frame_46)
+        self.AdminDashboard.setGeometry(QtCore.QRect(30, 70, 691, 81))
+        font = QtGui.QFont()
+        font.setFamily("Montserrat ExtraBold")
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setWeight(75)
+        self.AdminDashboard.setFont(font)
+        self.AdminDashboard.setStyleSheet("color: #022162;\n"
+"font-size:70px;\n"
+"background: transparent;")
+        self.AdminDashboard.setObjectName("AdminDashboard")
         self.LeftMenuBar = QtWidgets.QFrame(OWNER_DASHBOARD)
         self.LeftMenuBar.setGeometry(QtCore.QRect(0, 0, 301, 1011))
         font = QtGui.QFont()
@@ -734,13 +701,13 @@ class Ui_OWNER_DASHBOARD(object):
         self.dateLabel.setText(_translate("OWNER_DASHBOARD", "<html><head/><body><p align=\"center\"><span style=\" font-size:38pt; color:#022162;\">March 1, 2025</span><br/><span style=\" font-size:20pt; color:#b2423c;\">Monday</span></p></body></html>"))
         self.label_4.setText(_translate("OWNER_DASHBOARD", "Today’s Sales"))
         self.label_8.setText(_translate("OWNER_DASHBOARD", "Today’s Total Orders"))
-        self.label_9.setText(_translate("OWNER_DASHBOARD", "Today’s Revenue"))
         self.label_10.setText(_translate("OWNER_DASHBOARD", "Best Sellers"))
         self.btnViewSalesReport.setText(_translate("OWNER_DASHBOARD", "View Sales Report"))
         self.label_11.setText(_translate("OWNER_DASHBOARD", "Inventory"))
         self.btnViewMore_Inventory.setText(_translate("OWNER_DASHBOARD", "View More in Inventory"))
         self.label_12.setText(_translate("OWNER_DASHBOARD", "Low in Stock"))
         self.label_13.setText(_translate("OWNER_DASHBOARD", "Warning! These items are low in stock."))
+        self.AdminDashboard.setText(_translate("OWNER_DASHBOARD", "Admin Dashboard"))
         self.JJelevate_text_2.setText(_translate("OWNER_DASHBOARD", "J&J "))
         self.pushButton_Dashboard.setText(_translate("OWNER_DASHBOARD", "  Home   "))
         self.pushButton_Inventory.setText(_translate("OWNER_DASHBOARD", "Inventory"))
@@ -750,3 +717,13 @@ class Ui_OWNER_DASHBOARD(object):
         self.pushButton_LogOut.setText(_translate("OWNER_DASHBOARD", "   Log out"))
         self.pushButton_Stock_History.setText(_translate("OWNER_DASHBOARD", "Stock History"))
         self.JJelevate_text_3.setText(_translate("OWNER_DASHBOARD", "Elevate"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    OWNER_DASHBOARD = QtWidgets.QWidget()
+    ui = Ui_OWNER_DASHBOARD()
+    ui.setupUi(OWNER_DASHBOARD)
+    OWNER_DASHBOARD.show()
+    sys.exit(app.exec_())
