@@ -79,19 +79,27 @@ class SalesPageController:
         data = self.model.get_sales_summary_data(filter_type)
         self.ui.tableWidget_salesSummary.setRowCount(len(data))
 
-        for row_idx, row_data in enumerate(data):
-            for col_idx, col_data in enumerate(row_data):
-                item = QTableWidgetItem(str(col_data))
+        # Define the order of keys as they appear in your SQL query and table headers
+        # This mapping ensures you pick the right data for the right column
+        column_keys = ["report_id", "shop_branch_name", "total_quantity", "total_revenue", "report_date"]
 
-                if col_idx == 2:
-                    item.setText(f"{int(col_data)}")
-                elif col_idx == 3:
+        for row_idx, row_dict in enumerate(data): # Change row_data to row_dict for clarity
+            for col_idx, key in enumerate(column_keys): # Iterate through your defined keys
+                col_data = row_dict.get(key) # Get data using the key
+
+                item = QTableWidgetItem() # Initialize item without data first
+
+                if key == "total_quantity": # Check by key name
+                    item.setText(f"{int(col_data)}") # Ensure it's an int for display
+                elif key == "total_revenue": # Check by key name
                     item.setText(f"₱{float(col_data):,.2f}")
-                elif col_idx == 4:
+                elif key == "report_date": # Check by key name
                     if isinstance(col_data, datetime):
                         item.setText(col_data.strftime("%Y-%m-%d %H:%M"))
                     else:
-                        item.setText(str(col_data))
+                        item.setText(str(col_data)) # Fallback
+                else:
+                    item.setText(str(col_data)) # For 'report_id' and 'shop_branch_name'
 
                 self.ui.tableWidget_salesSummary.setItem(row_idx, col_idx, item)
 
@@ -100,19 +108,26 @@ class SalesPageController:
         data = self.model.get_order_details_data(filter_type)
         self.ui.tableWidget_orderDetails.setRowCount(len(data))
 
-        for row_idx, row_data in enumerate(data):
-            for col_idx, col_data in enumerate(row_data):
-                item = QTableWidgetItem(str(col_data))
+        # Define the order of keys for order details table
+        order_details_column_keys = ["detail_id", "product_name", "quantity_sold", "total_sales", "date_recorded"]
 
-                if col_idx == 2:
-                    item.setText(f"{col_data}")
-                elif col_idx == 3:
+        for row_idx, row_dict in enumerate(data):
+            for col_idx, key in enumerate(order_details_column_keys):
+                col_data = row_dict.get(key)
+
+                item = QTableWidgetItem()
+
+                if key == "quantity_sold":
+                    item.setText(f"{int(col_data)}") # Make sure it's an int, or just str() if you prefer
+                elif key == "total_sales":
                     item.setText(f"₱{float(col_data):,.2f}")
-                elif col_idx == 4:
+                elif key == "date_recorded":
                     if isinstance(col_data, datetime):
                         item.setText(col_data.strftime("%Y-%m-%d %H:%M"))
                     else:
                         item.setText(str(col_data))
+                else:
+                    item.setText(str(col_data))
 
                 self.ui.tableWidget_orderDetails.setItem(row_idx, col_idx, item)
 

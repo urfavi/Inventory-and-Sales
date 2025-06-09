@@ -9,12 +9,11 @@ class OrdersPageController:
         Initialize orders controller with flexible parameters
         """
         self.ui = orders_ui
-        self.current_user_id = current_user_id
-        self.current_shop_id = current_shop_id
         
-        # Backward compatibility
+        # Handle both initialization styles
         if cashier_controller is not None:
             self.parent_controller = cashier_controller
+            self.cashier_controller = cashier_controller  # Keep both for backward compatibility
             self.database = cashier_controller.database
             if hasattr(cashier_controller, 'current_user_id'):
                 self.current_user_id = cashier_controller.current_user_id
@@ -22,7 +21,10 @@ class OrdersPageController:
                 self.current_shop_id = cashier_controller.current_user_shop_id
         else:
             self.parent_controller = parent_controller
-            self.database = parent_controller.database  # Assuming parent has database
+            self.cashier_controller = parent_controller  # Alias for backward compatibility
+            self.database = parent_controller.database
+            self.current_user_id = current_user_id
+            self.current_shop_id = current_shop_id
 
         self.orders_model = OrdersModel(self.database)
         self.current_order_items = []
@@ -518,7 +520,7 @@ class OrdersPageController:
                 ) RETURNING oh_id
             """, (
                 1,  # shop_id (adjust as needed)
-                self.cashier_controller.user_id,
+                self.current_user_id,
                 service_id,
                 customer_name,
                 contact,
@@ -567,7 +569,7 @@ class OrdersPageController:
             """, (
                 1,  # shop_id
                 oh_id,
-                self.cashier_controller.user_id,
+                self.current_user_id,
                 service_id,
                 total_discount,
                 subtotal,
@@ -593,15 +595,24 @@ class OrdersPageController:
             cursor = self.database.connection.cursor()
             
             # 1. Get order header and receipt information
+            # Verify the exact order and count of these columns matches your DB schema
             cursor.execute("""
                 SELECT 
-                    oh.oh_id, oh.oh_created_at, oh.user_acc_id,
-                    r.receipt_subtotal, r.receipt_discount_applied, 
-                    r.receipt_final_amt, r.receipt_cash, r.receipt_change,
-                    oh.oh_by_customer_name, oh.oh_by_customer_contact_num, oh.oh_by_customer_address,
-                    s.service_name,
-                    sh.shop_branch_name, sh.shop_location,
-                    ua.user_acc_username
+                    oh.oh_id,                -- 0
+                    oh.oh_created_at,        -- 1
+                    oh.user_acc_id,          -- 2 (cashier_id)
+                    r.receipt_subtotal,      -- 3
+                    r.receipt_discount_applied, -- 4
+                    r.receipt_final_amt,     -- 5
+                    r.receipt_cash,          -- 6
+                    r.receipt_change,        -- 7
+                    oh.oh_by_customer_name,  -- 8
+                    oh.oh_by_customer_contact_num, -- 9
+                    oh.oh_by_customer_address, -- 10
+                    s.service_name,          -- 11
+                    sh.shop_branch_name,     -- 12 (shop_name)
+                    sh.shop_location,        -- 13 (shop_location)
+                    ua.user_acc_username     -- 14 (cashier_username)
                 FROM order_header oh
                 JOIN receipt r ON oh.oh_id = r.oh_id
                 JOIN service s ON oh.service_id = s.service_id
@@ -614,7 +625,7 @@ class OrdersPageController:
             if not order_info:
                 raise ValueError("Order not found in database!")
             
-            # 2. Get order details
+            # 2. Get order details (This part is fine)
             cursor.execute("""
                 SELECT 
                     p.product_name, od.od_quantity, 
@@ -629,12 +640,11 @@ class OrdersPageController:
             
             cursor.close()
             
-            # 3. Prepare receipt data
+            # 3. Prepare receipt data - CORRECTED INDEXES HERE
             receipt_data = {
                 'order_id': order_info[0],
                 'date_time': order_info[1].strftime('%Y-%m-%d %H:%M:%S'),
                 'cashier_id': order_info[2],
-                'cashier_name': order_info[13],
                 'subtotal': float(order_info[3]),
                 'discount': float(order_info[4]),
                 'total': float(order_info[5]),
@@ -644,8 +654,9 @@ class OrdersPageController:
                 'customer_contact': order_info[9],
                 'customer_address': order_info[10],
                 'service': order_info[11],
-                'shop_name': order_info[12],
-                'shop_location': order_info[13],
+                'shop_name': order_info[12],      # sh.shop_branch_name
+                'shop_location': order_info[13],  # sh.shop_location
+                'cashier_name': order_info[14],   # ua.user_acc_username - THIS IS THE CHANGE!
                 'items': [{
                     'name': item[0],
                     'quantity': item[1],
@@ -654,6 +665,8 @@ class OrdersPageController:
                     'total': float(item[4])
                 } for item in order_items]
             }
+            
+            # ... rest of the function remains the same ...
             
             # 4. Generate PDF receipt (you'll need to implement this)
             self.generate_pdf_receipt(receipt_data)

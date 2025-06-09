@@ -1,11 +1,13 @@
 from models.database import Database # Make sure this import is at the top
 from PyQt5.QtWidgets import QStackedWidget, QWidget, QApplication, QMessageBox # Import QMessageBox for error handling
+
 from gui_classes.UI_ODashboard import Ui_OWNER_DASHBOARD
 from gui_classes.UI_OInventory import Ui_OWNER_INVENTORY
 from gui_classes.UI_OOrders import Ui_OWNER_ORDERS
 from gui_classes.UI_OSales import Ui_OWNER_SALES
 from gui_classes.UI_OStockHistory import Ui_OWNER_STOCKHISTORY
 from gui_classes.UI_OAccount import Ui_OWNER_ACCOUNT
+
 from controllers.ODashboard_pagecontroller import DashboardPageController
 from controllers.OInv_pageController import InventoryPageController
 from controllers.OOrders_pageController import OrdersPageController
@@ -13,7 +15,12 @@ from controllers.OSales_pageController import SalesPageController
 from controllers.OStk_Hstry_controller import StockHistoryPageController
 from controllers.OAcc_pageController import AccountPageController
 from controllers.date_time import DateTimeController
+from controllers.OOrders_pageController import OrdersPageController # This is your adapted owner orders controller
+from controllers.OSales_pageController import SalesPageController   # This is your adapted owner sales controller
+
 from models.OStk_Hstry_model import StockHistoryModel
+from models.OOrders_pageModel import OOrders_pageModel# This is your adapted owner orders controller
+from models.OSales_pageModel import OSales_pageModel  # This is your adapted owner sales controller
 
 class OwnerController:
     def __init__(self, main_controller, current_user_shop_id=None, current_user_id=None, current_username=None):
@@ -121,34 +128,35 @@ class OwnerController:
         self.stack.addWidget(self.inventory_widget)
 
     def _init_orders(self):
-        # CONSISTENT: orders_widget created and used correctly
-        self.orders_widget = QWidget() # Corrected: used _widget
-        self.orders_ui = Ui_OWNER_ORDERS()
-        self.orders_ui.setupUi(self.orders_widget) # Corrected: used orders_widget
-        self.stack.addWidget(self.orders_widget) # Corrected: used orders_widget (and removed duplicate)
+        self.orders_widget = QWidget()
+        self.orders_ui = Ui_OWNER_ORDERS() # This is your owner-specific UI for orders
+        self.orders_ui.setupUi(self.orders_widget)
+        self.stack.addWidget(self.orders_widget)
 
-        # Initialize orders controller
+        # Initialize the new OOrders_pageController, passing the database and owner context
         self.orders_page_controller = OrdersPageController(
             orders_ui=self.orders_ui,
-            owner_controller=self,
-            current_user_shop_id=self.current_user_shop_id,
+            # CHANGE THIS LINE: from owner_controller=self to parent_controller=self
+            parent_controller=self, 
             current_user_id=self.current_user_id,
-            current_username=self.current_username,
+            current_shop_id=self.current_user_shop_id, # Pass owner's shop_id (can be None)
+            database_connection=self.database # Pass the database connection
         )
 
     def _init_sales(self):
-        # CONSISTENT: sales_widget created and used correctly
-        self.sales_widget = QWidget() # Corrected: used _widget
-        self.sales_ui = Ui_OWNER_SALES()
-        self.sales_ui.setupUi(self.sales_widget) # Corrected: used sales_widget
-        self.stack.addWidget(self.sales_widget) # Corrected: used sales_widget
+        self.sales_widget = QWidget()
+        self.sales_ui = Ui_OWNER_SALES() # This is your owner-specific UI for sales
+        self.sales_ui.setupUi(self.sales_widget)
+        self.stack.addWidget(self.sales_widget)
 
+        # Initialize the new OSales_pageController, passing the database and owner context
         self.sales_page_controller = SalesPageController(
             sales_ui=self.sales_ui,
-            sales_controller=self, # Assuming this is 'self' (the OwnerController instance)
-            current_user_shop_id=self.current_user_shop_id,
+            # CHANGE THIS LINE: from sales_controller=self to parent_controller=self
+            parent_controller=self, 
             current_user_id=self.current_user_id,
-            current_username=self.current_username
+            current_shop_id=self.current_user_shop_id, # Pass owner's shop_id (can be None)
+            database_connection=self.database # Pass the database connection
         )
 
     def _init_stock_history(self):

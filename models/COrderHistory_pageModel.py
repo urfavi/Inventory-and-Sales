@@ -61,5 +61,6 @@ class OrderHistory:
         print("Query params:", params)  # Debug print
         
         results = self.db.fetch_all(query, params)
+        print(f"DEBUG: Data from get_all_orders: {results}") # <--- THIS IS THE LINE I NEED THE OUTPUT FROM
         print(f"Found {len(results)} records")  # Debug print
         return results

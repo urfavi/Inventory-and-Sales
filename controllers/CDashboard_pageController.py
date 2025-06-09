@@ -42,6 +42,10 @@ class DashboardPageController:
         today_orders = self.model.get_today_orders()
         today_revenue = self.model.get_today_revenue()
 
+        print(f"DEBUG Dashboard: today_sales: {today_sales} (type: {type(today_sales)})")
+        print(f"DEBUG Dashboard: today_orders: {today_orders} (type: {type(today_orders)})")
+        print(f"DEBUG Dashboard: today_revenue: {today_revenue} (type: {type(today_revenue)})")
+
         font = self.ui.value_Tod_sales.font()
         font.setPointSize(32)
         font.setBold(True)    
@@ -57,53 +61,73 @@ class DashboardPageController:
 
     def add_best_sellers_chart(self):
         """Add best sellers chart to the dashboard"""
-        # Clear existing widgets
+        # Clear existing widgets from the frame's layout
+        # This is a robust way to clear a layout
         layout = self.ui.frameBestSellersChart.layout()
-        if layout:
-            QtWidgets.QWidget().setLayout(layout)
-        
-        # Create new layout
-        layout = QtWidgets.QVBoxLayout(self.ui.frameBestSellersChart)
-        self.ui.frameBestSellersChart.setLayout(layout)
-        
-        # Adjust frame size
+        if layout is not None: # Check if a layout already exists
+            # Clear all widgets from the existing layout
+            while layout.count():
+                item = layout.takeAt(0)
+                if item.widget():
+                    item.widget().deleteLater()
+            # If you want to replace the layout completely, you can delete it
+            # layout.deleteLater() # Optional: if you want to create a brand new QVBoxLayout every time
+        else:
+            # If no layout exists, create a new one for the frame
+            layout = QtWidgets.QVBoxLayout(self.ui.frameBestSellersChart)
+            self.ui.frameBestSellersChart.setLayout(layout) # Ensure the frame has this layout
+
+        # Adjust frame size (this is good practice to keep here)
         self.ui.frameBestSellersChart.setGeometry(QtCore.QRect(20, 80, 891, 555))
-        
-        # Create matplotlib figure
+
+        # Create matplotlib figure (THESE LINES MUST BE PRESENT AND NOT SKIPPED)
         fig = Figure(figsize=(6.5, 4.3), dpi=100, facecolor='none')
         ax = fig.add_subplot(111)
-        
+
         # Make the plot area (axes) transparent
         ax.set_facecolor('none')  # <-- Set axes background to transparent
-        
+
         # Get best sellers data
         best_sellers = self.model.get_best_sellers()
-        items = [row['product_name'] for row in best_sellers]
-        sales = [row['total_quantity'] for row in best_sellers]
-        
-        # Create bar chart
-        bars = ax.bar(items, sales, color='#003366', width=0.6)
-        
-        # Customize chart
-        ax.set_ylabel('Quantity Sold', fontsize=10)
-        ax.tick_params(axis='x', labelsize=8, rotation=45)
-        
-        # Add value labels on bars
-        for bar in bars:
-            height = bar.get_height()
-            ax.text(bar.get_x() + bar.get_width()/2., height,
-                    f'{int(height)}',
-                    ha='center', va='bottom', fontsize=8)
-        
+        print(f"DEBUG Chart Data: {best_sellers}") # Add this debug print
+
+        # Check if best_sellers is not empty before attempting to plot
+        if best_sellers:
+            # The previous error was that row['total_quantity'] was the string 'total_quantity'
+            # Assuming your Database class is now correctly returning dictionaries:
+            items = [row['product_name'] for row in best_sellers]
+            sales = [row['total_quantity'] for row in best_sellers]
+
+            # Create bar chart
+            bars = ax.bar(items, sales, color='#003366', width=0.6)
+
+            # Customize chart
+            ax.set_ylabel('Quantity Sold', fontsize=10)
+            ax.tick_params(axis='x', labelsize=8, rotation=45)
+
+            # Add value labels on bars
+            for bar in bars:
+                height = bar.get_height()
+                # Ensure height is an integer for f-string formatting
+                ax.text(bar.get_x() + bar.get_width()/2., height,
+                                f'{int(height)}',
+                                ha='center', va='bottom', fontsize=8)
+        else:
+            # Handle case where there are no best sellers
+            ax.text(0.5, 0.5, "No best sellers data available.",
+                    horizontalalignment='center', verticalalignment='center',
+                    transform=ax.transAxes, fontsize=12, color='gray')
+
+
         # Adjust spacing
         fig.tight_layout()
-        
-        # Create canvas and add to layout
+
+        # Create canvas and add to layout (the 'layout' variable is now guaranteed to exist and be correct)
         canvas = FigureCanvas(fig)
         layout.addWidget(canvas)
-        
+
         # Set canvas size policy
         canvas.setSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, 
+            QtWidgets.QSizePolicy.Expanding,
             QtWidgets.QSizePolicy.Expanding
         )

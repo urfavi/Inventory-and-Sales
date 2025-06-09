@@ -73,6 +73,7 @@ class OrdersModel:
         except Exception as e:
             print(f"Database error getting products by type: {e}")
             return []
+  
 
     def get_product_details(self, product_id):
         """Get detailed information for a specific product from database"""
