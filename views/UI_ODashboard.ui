@@ -384,9 +384,9 @@ border-radius: 10px;
     <widget class="QLabel" name="label_10">
      <property name="geometry">
       <rect>
-       <x>180</x>
+       <x>170</x>
        <y>0</y>
-       <width>351</width>
+       <width>361</width>
        <height>71</height>
       </rect>
      </property>
@@ -571,9 +571,9 @@ color:#8d2721;
     <widget class="QLabel" name="label_11">
      <property name="geometry">
       <rect>
-       <x>250</x>
+       <x>230</x>
        <y>0</y>
-       <width>281</width>
+       <width>301</width>
        <height>81</height>
       </rect>
      </property>
@@ -914,23 +914,22 @@ background:transparent;
    <widget class="QLabel" name="AdminDashboard">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>70</y>
-      <width>691</width>
+      <width>701</width>
       <height>81</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <family>Montserrat ExtraBold</family>
-      <pointsize>-1</pointsize>
+      <pointsize>41</pointsize>
       <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color: #022162;
-font-size:70px;
 background: transparent;</string>
     </property>
     <property name="text">

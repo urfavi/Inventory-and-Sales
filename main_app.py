@@ -30,3 +30,7 @@ if __name__ == "__main__":
     window = LandingPage()
     window.show()
     sys.exit(app.exec_())
+    
+        
+# Owner account (username: Aowner, password: Aaron123!, security answer: fluffy)
+# Cashier account (username: Cashieracc, password: OnlyCashier123, security answer: spot)

@@ -258,7 +258,7 @@ padding: 5;
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/search.png</pixmap>
+      <pixmap>../resources/images/search.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
@@ -386,7 +386,7 @@ font-size: 30px;</string>
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/JJLOGO.png</pixmap>
+     <pixmap>../resources/images/JJLOGO.png</pixmap>
     </property>
     <property name="scaledContents">
      <bool>true</bool>
@@ -438,7 +438,7 @@ QPushButton.activeButton {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/dashboard_icon.svg</normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/dashboard_icon.svg</iconset>
+      <normaloff>../resources/images/dashboard_icon.svg</normaloff>../resources/images/dashboard_icon.svg</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -487,7 +487,7 @@ QPushButton.activeButton {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/inventory_icon.svg</normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/inventory_icon.svg</iconset>
+      <normaloff>../resources/images/inventory_icon.svg</normaloff>../resources/images/inventory_icon.svg</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -536,7 +536,7 @@ QPushButton.activeButton {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/sales_icon.svg</normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/sales_icon.svg</iconset>
+      <normaloff>../resources/images/sales_icon.svg</normaloff>../resources/images/sales_icon.svg</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -585,7 +585,7 @@ QPushButton.activeButton {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/account_icon.svg</normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/account_icon.svg</iconset>
+      <normaloff>../resources/images/account_icon.svg</normaloff>../resources/images/account_icon.svg</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -632,7 +632,7 @@ QPushButton:hover {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/WHITElogout_icon.svg</normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/WHITElogout_icon.svg</iconset>
+      <normaloff>../resources/images/WHITElogout_icon.svg</normaloff>../resources/images/WHITElogout_icon.svg</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -712,7 +712,7 @@ QPushButton.activeButton {
     </property>
     <property name="icon">
      <iconset>
-      <normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/orders_icon.svg</normaloff>../../jhaneskie/JJ-ELEVATE-Final-Project-main/ui/resources/images/orders_icon.svg</iconset>
+      <normaloff>../resources/images/orders_icon.svg</normaloff>../resources/images/orders_icon.svg</iconset>
     </property>
     <property name="iconSize">
      <size>

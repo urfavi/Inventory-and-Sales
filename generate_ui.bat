@@ -16,7 +16,7 @@
 :: ========================================================
 
 @echo off
-cd /d "C:\Users\Abie Gaile Casio\Desktop\New folder>"
+cd /d "C:\Users\jhane\Desktop\New folder>"
 
 :: Check if required commands exist
 where pyuic5 >nul 2>&1
@@ -67,11 +67,10 @@ call :convert_ui UI_OAccount
 
 :: Cashier interface
 call :convert_ui UI_CDashboard
-call :convert_ui UI_CInventory
 call :convert_ui UI_COrders
 call :convert_ui UI_CSales
-call :convert_ui UI_CStockHistory
 call :convert_ui UI_CAccount
+call :convert_ui UI_COrder_History
 
 :: ========================================================
 :: VERIFY ALL GENERATED CLASS NAMES
@@ -95,11 +94,10 @@ findstr "class Ui_" gui_classes\UI_OAccount.py
 
 :: Cashier interface
 findstr "class Ui_" gui_classes\UI_CDashboard.py
-findstr "class Ui_" gui_classes\UI_CInventory.py
 findstr "class Ui_" gui_classes\UI_COrders.py
 findstr "class Ui_" gui_classes\UI_CSales.py
-findstr "class Ui_" gui_classes\UI_CStockHistory.py
 findstr "class Ui_" gui_classes\UI_CAccount.py
+findstr "class Ui_" gui_classes\UI_COrder_History.py
 
 echo.
 echo Class name verification complete!

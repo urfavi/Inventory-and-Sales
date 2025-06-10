@@ -1,7 +1,7 @@
 import psycopg2
 
 class Database:
-    def __init__(self, dbname="inventory_sales_system", user="postgres", password="Agjc101404!", host="localhost", port="5432"):
+    def __init__(self, dbname="inventory_sales_system", user="postgres", password="!", host="localhost", port="5432"):
         self.dbname = dbname
         self.user = user
         self.password = password
